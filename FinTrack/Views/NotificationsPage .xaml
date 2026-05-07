@@ -1,8 +1,83 @@
-﻿<Page x:Class="FinTrack.Views.NotificationsPage "
+﻿<Page x:Class="FinTrack.Views.NotificationsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Background="#F5F5F0">
-    <TextBlock x:Name="TxtPlaceholder" Text="Notifications — Phase 5"
-               FontSize="18" Foreground="#999"
-               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock x:Name="TxtTitle" Text="Notifications"
+                           FontSize="20" FontWeight="SemiBold" Foreground="#1A1A1A"/>
+                <TextBlock x:Name="TxtUnread" FontSize="12"
+                           Foreground="#888" Margin="0,2,0,0"/>
+            </StackPanel>
+            <Button Grid.Column="1" Content="Mark All Read"
+                    Height="36" Padding="16,0"
+                    Background="#F0F0EA" Foreground="#555"
+                    BorderThickness="0" Cursor="Hand"
+                    Click="BtnMarkAll_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="6"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Grid>
+
+        <!-- Notification list -->
+        <Border Grid.Row="1" x:Name="CardBorder"
+                Background="White" CornerRadius="10"
+                BorderBrush="#E8E8E2" BorderThickness="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="NotifList" Padding="0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="#F0F0EA"
+                                    BorderThickness="0,0,0,1"
+                                    Padding="16,14">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Color dot -->
+                                    <Ellipse Grid.Column="0" Width="8" Height="8"
+                                             VerticalAlignment="Center"
+                                             Fill="{Binding Type, Converter={StaticResource TypeToNotifColorConverter}}"/>
+
+                                    <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                                        <TextBlock Text="{Binding Message}"
+                                                   FontSize="13" Foreground="#1A1A1A"
+                                                   TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding CreatedAt, StringFormat={}{0:MMM dd yyyy hh:mm tt}}"
+                                                   FontSize="11" Foreground="#AAA"
+                                                   Margin="0,4,0,0"/>
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Column="2"
+                                               Text="● Unread" FontSize="11"
+                                               Foreground="#1D9E75"
+                                               VerticalAlignment="Center"
+                                               Margin="12,0,0,0"
+                                               Visibility="{Binding IsRead, Converter={StaticResource BoolToVisConverter}}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+    </Grid>
 </Page>

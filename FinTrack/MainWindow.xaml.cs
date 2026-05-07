@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Media3D;
 using FinTrack.Views;
 
 namespace FinTrack;
@@ -78,22 +77,58 @@ public partial class MainWindow : Window
     {
         ThemeManager.Apply(_isDark);
 
-        // Shell colors
+        // Window
         this.Background = ThemeManager.PageBackground;
         MainFrame.Background = ThemeManager.PageBackground;
+
+        // Sidebar
         SidebarBorder.Background = ThemeManager.CardBackground;
         SidebarBorder.BorderBrush = ThemeManager.BorderColor;
+
+        // Topbar
         TopBarBorder.Background = ThemeManager.CardBackground;
         TopBarBorder.BorderBrush = ThemeManager.BorderColor;
+
+        // Text
         TxtPageTitle.Foreground = ThemeManager.TextPrimary;
         TxtUserName.Foreground = ThemeManager.TextPrimary;
         TxtUserRole.Foreground = ThemeManager.TextSecondary;
 
-        // Re-navigate to current page so it reloads with new theme
+        // Fix all nav section labels (MAIN, INSIGHTS, SETTINGS)
+        foreach (var tb in FindVisualChildren<TextBlock>(SidebarBorder))
+        {
+            if (tb.FontWeight == FontWeights.SemiBold && tb.FontSize == 10)
+            {
+                tb.Foreground = ThemeManager.IsDark
+                    ? new SolidColorBrush(Color.FromRgb(90, 90, 100))
+                    : new SolidColorBrush(Color.FromRgb(170, 170, 170));
+            }
+            else if (tb.Name == "" && tb != TxtUserName && tb != TxtUserRole)
+            {
+                tb.Foreground = ThemeManager.TextPrimary;
+            }
+        }
+
+        // Re-navigate to refresh current page theme
         if (_activeNavButton != null)
             NavButton_Click(_activeNavButton, new RoutedEventArgs());
     }
 
+    // Helper to find all children of a type in visual tree
+    private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent)
+        where T : DependencyObject
+    {
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        {
+            var child = VisualTreeHelper.GetChild(parent, i);
+
+            if (child is T t)
+                yield return t;
+
+            foreach (var c in FindVisualChildren<T>(child))
+                yield return c;
+        }
+    }
     private static SolidColorBrush Brush(string hex) =>
         new((Color)ColorConverter.ConvertFromString(hex));
 }

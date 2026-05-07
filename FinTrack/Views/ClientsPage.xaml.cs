@@ -51,6 +51,11 @@ public partial class ClientsPage : Page
         {
             TxtClientsTitle.Foreground = ThemeManager.TextPrimary;
         }
+
+        if (DgClients != null)
+        {
+            ThemeManager.ApplyToDataGrid(DgClients);
+        }//added ThemeManager
     }
     private void LoadClients()
     {

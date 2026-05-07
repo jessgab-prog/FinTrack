@@ -35,6 +35,7 @@ public partial class TransactionsPage : Page
         CmbPayment.Background = ThemeManager.InputBackground;
         TxtSummary.Foreground = ThemeManager.TextSecondary;
         TxtTransactions.Foreground = ThemeManager.TextPrimary;
+        ThemeManager.ApplyToDataGrid(DgTransactions); // added ThemeManager
     }
 
     private void LoadTransactions()
