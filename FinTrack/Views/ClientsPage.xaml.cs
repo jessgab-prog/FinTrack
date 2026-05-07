@@ -21,18 +21,37 @@ public partial class ClientsPage : Page
     private void ApplyTheme()
     {
         this.Background = ThemeManager.PageBackground;
-        CardBorder.Background = ThemeManager.CardBackground;
-        CardBorder.BorderBrush = ThemeManager.BorderColor;
-        DgClients.Background = ThemeManager.GridBackground;
-        DgClients.AlternatingRowBackground = ThemeManager.AlternateRow;
-        DgClients.Foreground = ThemeManager.TextPrimary;
-        TxtSearch.Background = ThemeManager.InputBackground;
-        TxtSearch.Foreground = ThemeManager.TextSecondary;
-        TxtSearch.BorderBrush = ThemeManager.BorderColor;
-        CmbType.Background = ThemeManager.InputBackground;
-        TxtClientsTitle.Foreground = ThemeManager.TextPrimary;
-    }
 
+        if (CardBorder != null)
+        {
+            CardBorder.Background = ThemeManager.CardBackground;
+            CardBorder.BorderBrush = ThemeManager.BorderColor;
+        }
+
+        if (DgClients != null)
+        {
+            DgClients.Background = ThemeManager.GridBackground;
+            DgClients.AlternatingRowBackground = ThemeManager.AlternateRow;
+            DgClients.Foreground = ThemeManager.TextPrimary;
+        }
+
+        if (TxtSearch != null)
+        {
+            TxtSearch.Background = ThemeManager.InputBackground;
+            TxtSearch.Foreground = ThemeManager.TextSecondary;
+            TxtSearch.BorderBrush = ThemeManager.BorderColor;
+        }
+
+        if (CmbType != null)
+        {
+            CmbType.Background = ThemeManager.InputBackground;
+        }
+
+        if (TxtClientsTitle != null)
+        {
+            TxtClientsTitle.Foreground = ThemeManager.TextPrimary;
+        }
+    }
     private void LoadClients()
     {
         using var db = DatabaseHelper.GetContext();
@@ -42,22 +61,31 @@ public partial class ClientsPage : Page
 
     private void ApplyFilters()
     {
+        // Prevent null errors during page initialization
+        if (TxtSearch == null || CmbType == null || DgClients == null)
+            return;
+
         var filtered = _all.AsEnumerable();
 
         var search = TxtSearch.Text.Trim();
-        if (!string.IsNullOrEmpty(search) && search != "Search clients...")
+
+        if (!string.IsNullOrEmpty(search) &&
+            search != "Search clients...")
+        {
             filtered = filtered.Where(c =>
                 c.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
                 c.Email.Contains(search, StringComparison.OrdinalIgnoreCase) ||
                 c.ContactNumber.Contains(search, StringComparison.OrdinalIgnoreCase));
+        }
 
         if (CmbType.SelectedItem is ComboBoxItem item &&
             item.Content.ToString() != "All")
+        {
             filtered = filtered.Where(c => c.Type == item.Content.ToString());
+        }
 
         DgClients.ItemsSource = filtered.ToList();
     }
-
     private void TxtSearch_GotFocus(object sender, RoutedEventArgs e)
     {
         if (!_searchFocused)
