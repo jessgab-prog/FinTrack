@@ -1,0 +1,250 @@
+﻿<Page x:Class="FinTrack.Views.TransactionsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="#F5F5F0">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header row -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel>
+
+                <!-- UPDATED: Added x:Name -->
+                <TextBlock x:Name="TxtTransactions"
+                           Text="Transactions"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Foreground="#1A1A1A"/>
+
+                <TextBlock x:Name="TxtSummary"
+                           FontSize="12"
+                           Foreground="#888"
+                           Margin="0,2,0,0"/>
+            </StackPanel>
+
+            <Button Grid.Column="1"
+                    Content="+ Add Transaction"
+                    Height="36"
+                    Padding="16,0"
+                    Background="#1D9E75"
+                    Foreground="White"
+                    FontWeight="SemiBold"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    Click="BtnAdd_Click">
+
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="6"/>
+                    </Style>
+                </Button.Resources>
+
+            </Button>
+        </Grid>
+
+        <!-- Search and filter row -->
+        <Grid Grid.Row="1" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="TxtSearch"
+                     Grid.Column="0"
+                     Height="36"
+                     Padding="10,0"
+                     Margin="0,0,8,0"
+                     VerticalContentAlignment="Center"
+                     FontSize="13"
+                     BorderBrush="#DDD"
+                     Text="Search transactions..."
+                     Foreground="#AAA"
+                     GotFocus="TxtSearch_GotFocus"
+                     LostFocus="TxtSearch_LostFocus"
+                     TextChanged="Filter_Changed"/>
+
+            <ComboBox x:Name="CmbType"
+                      Grid.Column="1"
+                      Height="36"
+                      Margin="0,0,8,0"
+                      FontSize="13"
+                      BorderBrush="#DDD"
+                      SelectionChanged="Filter_Changed">
+
+                <ComboBoxItem Content="All Types" IsSelected="True"/>
+                <ComboBoxItem Content="Income"/>
+                <ComboBoxItem Content="Expense"/>
+
+            </ComboBox>
+
+            <ComboBox x:Name="CmbPayment"
+                      Grid.Column="2"
+                      Height="36"
+                      Margin="0,0,8,0"
+                      FontSize="13"
+                      BorderBrush="#DDD"
+                      SelectionChanged="Filter_Changed">
+
+                <ComboBoxItem Content="All Methods" IsSelected="True"/>
+                <ComboBoxItem Content="Cash"/>
+                <ComboBoxItem Content="GCash"/>
+                <ComboBoxItem Content="Maya"/>
+                <ComboBoxItem Content="Bank"/>
+
+            </ComboBox>
+
+            <Button Grid.Column="3"
+                    Content="Clear Filters"
+                    Height="36"
+                    Padding="10,0"
+                    Background="#F0F0EA"
+                    Foreground="#555"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    Click="BtnClearFilters_Click">
+
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="6"/>
+                    </Style>
+                </Button.Resources>
+
+            </Button>
+        </Grid>
+
+        <!-- UPDATED: Added x:Name="CardBorder" -->
+        <Border x:Name="CardBorder"
+                Grid.Row="2"
+                Background="White"
+                BorderBrush="#E8E8E2"
+                BorderThickness="1"
+                CornerRadius="8">
+
+            <DataGrid x:Name="DgTransactions"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      GridLinesVisibility="Horizontal"
+                      HeadersVisibility="Column"
+                      BorderThickness="0"
+                      RowHeight="44"
+                      FontSize="13"
+                      Background="White"
+                      AlternatingRowBackground="#FAFAF8"
+                      SelectionMode="Single"
+                      CanUserResizeRows="False"
+                      CanUserSortColumns="True">
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Header="Date"
+                                        Width="100"
+                                        Binding="{Binding Date, StringFormat={}{0:MMM dd yyyy}}"/>
+
+                    <DataGridTextColumn Header="Description"
+                                        Width="*"
+                                        Binding="{Binding Description}"/>
+
+                    <DataGridTextColumn Header="Category"
+                                        Width="130"
+                                        Binding="{Binding Category.Name}"/>
+
+                    <DataGridTextColumn Header="Client"
+                                        Width="130"
+                                        Binding="{Binding Client.Name}"/>
+
+                    <DataGridTextColumn Header="Method"
+                                        Width="100"
+                                        Binding="{Binding PaymentMethod}"/>
+
+                    <DataGridTextColumn Header="Type"
+                                        Width="90"
+                                        Binding="{Binding Type}"/>
+
+                    <DataGridTextColumn Header="Amount (₱)"
+                                        Width="120"
+                                        Binding="{Binding Amount, StringFormat=N2}">
+
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                                <Setter Property="Padding" Value="0,0,12,0"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+
+                    </DataGridTextColumn>
+
+                    <DataGridTemplateColumn Header="Actions" Width="120">
+
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Center">
+
+                                    <Button Content="Edit"
+                                            Width="46"
+                                            Height="26"
+                                            Margin="0,0,4,0"
+                                            FontSize="11"
+                                            Background="#E1F5EE"
+                                            Foreground="#0F6E56"
+                                            BorderThickness="0"
+                                            Cursor="Hand"
+                                            Tag="{Binding Id}"
+                                            Click="BtnEdit_Click">
+
+                                        <Button.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="4"/>
+                                            </Style>
+                                        </Button.Resources>
+
+                                    </Button>
+
+                                    <Button Content="Del"
+                                            Width="40"
+                                            Height="26"
+                                            FontSize="11"
+                                            Background="#FDECEA"
+                                            Foreground="#C0392B"
+                                            BorderThickness="0"
+                                            Cursor="Hand"
+                                            Tag="{Binding Id}"
+                                            Click="BtnDelete_Click">
+
+                                        <Button.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="4"/>
+                                            </Style>
+                                        </Button.Resources>
+
+                                    </Button>
+
+                                </StackPanel>
+
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+        </Border>
+
+    </Grid>
+
+</Page>
