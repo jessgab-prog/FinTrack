@@ -55,6 +55,7 @@ public partial class MainWindow : Window
             "Clients" => new ClientsPage(),
             "Reports" => new ReportsPage(),
             "Notifications" => new NotificationsPage(),
+            "Settings" => new SettingsPage(),        // 👈 added Settings
             _ => new DashboardPage()
         });
     }
@@ -94,22 +95,34 @@ public partial class MainWindow : Window
         TxtUserName.Foreground = ThemeManager.TextPrimary;
         TxtUserRole.Foreground = ThemeManager.TextSecondary;
 
-        // Fix all nav section labels (MAIN, INSIGHTS, SETTINGS)
-        foreach (var tb in FindVisualChildren<TextBlock>(SidebarBorder))
+        // Logo text
+        TxtLogoName.Foreground = ThemeManager.TextPrimary;
+        TxtLogoSub.Foreground = ThemeManager.TextSecondary;
+
+        // Nav section labels
+        var sectionColor = ThemeManager.IsDark
+            ? new SolidColorBrush(Color.FromRgb(90, 90, 100))
+            : new SolidColorBrush(Color.FromRgb(170, 170, 170));
+
+        LblMain.Foreground = sectionColor;
+        LblInsights.Foreground = sectionColor;
+        LblSettings.Foreground = sectionColor;
+
+        // Nav button text
+        var navColor = ThemeManager.IsDark
+            ? new SolidColorBrush(Color.FromRgb(180, 180, 190))
+            : new SolidColorBrush(Color.FromRgb(68, 68, 68));
+
+        foreach (var btn in new[] {
+        BtnDashboard, BtnTransactions, BtnClients,
+        BtnReports, BtnNotifications, BtnSettings
+    })
         {
-            if (tb.FontWeight == FontWeights.SemiBold && tb.FontSize == 10)
-            {
-                tb.Foreground = ThemeManager.IsDark
-                    ? new SolidColorBrush(Color.FromRgb(90, 90, 100))
-                    : new SolidColorBrush(Color.FromRgb(170, 170, 170));
-            }
-            else if (tb.Name == "" && tb != TxtUserName && tb != TxtUserRole)
-            {
-                tb.Foreground = ThemeManager.TextPrimary;
-            }
+            if (btn != _activeNavButton)
+                btn.Foreground = navColor;
         }
 
-        // Re-navigate to refresh current page theme
+        // Re-navigate to refresh page theme
         if (_activeNavButton != null)
             NavButton_Click(_activeNavButton, new RoutedEventArgs());
     }

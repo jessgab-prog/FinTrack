@@ -28,10 +28,18 @@
                                        VerticalAlignment="Center"/>
                         </Border>
                         <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
-                            <TextBlock Text="FinTrack" FontSize="14"
-                                       FontWeight="SemiBold" Foreground="#1A1A1A"/>
-                            <TextBlock Text="Finance Manager" FontSize="10"
-                                       Foreground="#999"/>
+
+                            <TextBlock x:Name="TxtLogoName"
+               Text="FinTrack"
+               FontSize="14"
+               FontWeight="SemiBold"
+               Foreground="#1A1A1A"/>
+
+                            <TextBlock x:Name="TxtLogoSub"
+               Text="Finance Manager"
+               FontSize="10"
+               Foreground="#999"/>
+
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -58,39 +66,58 @@
                 </Border>
 
                 <!-- Nav items -->
+                <!-- Nav items -->
                 <StackPanel Margin="8,12,8,0">
-                    <TextBlock Text="MAIN" FontSize="10" Foreground="#AAAAAA"
-                               Margin="8,4,0,4" FontWeight="SemiBold"/>
+
+                    <TextBlock x:Name="LblMain"
+               Text="MAIN"
+               FontSize="10"
+               Foreground="#AAAAAA"
+               Margin="8,4,0,6"
+               FontWeight="SemiBold"/>
 
                     <Button x:Name="BtnDashboard" Content="📊  Dashboard"
-                            Style="{StaticResource NavButton}"
-                            Click="NavButton_Click" Tag="Dashboard"/>
-                    <Button x:Name="BtnTransactions" Content="💸  Transactions"
-                            Style="{StaticResource NavButton}"
-                            Click="NavButton_Click" Tag="Transactions"/>
-                    <Button x:Name="BtnClients" Content="👥  Clients / Vendors"
-                            Style="{StaticResource NavButton}"
-                            Click="NavButton_Click" Tag="Clients"/>
+            Style="{StaticResource NavButton}"
+            Click="NavButton_Click" Tag="Dashboard"/>
 
-                    <TextBlock Text="INSIGHTS" FontSize="10" Foreground="#AAAAAA"
-                               Margin="8,12,0,4" FontWeight="SemiBold"/>
+                    <Button x:Name="BtnTransactions" Content="💸  Transactions"
+            Style="{StaticResource NavButton}"
+            Click="NavButton_Click" Tag="Transactions"/>
+
+                    <Button x:Name="BtnClients" Content="👥  Clients / Vendors"
+            Style="{StaticResource NavButton}"
+            Click="NavButton_Click" Tag="Clients"/>
+
+                    <TextBlock x:Name="LblInsights"
+               Text="INSIGHTS"
+               FontSize="10"
+               Foreground="#AAAAAA"
+               Margin="8,14,0,6"
+               FontWeight="SemiBold"/>
 
                     <Button x:Name="BtnReports" Content="📈  Reports"
-                            Style="{StaticResource NavButton}"
-                            Click="NavButton_Click" Tag="Reports"/>
-                    <Button x:Name="BtnBudget" Content="🎯  Budget"
-                            Style="{StaticResource NavButton}"
-                            Click="NavButton_Click" Tag="Budget"/>
-                    <Button x:Name="BtnNotifications" Content="🔔  Notifications"
-                            Style="{StaticResource NavButton}"
-                            Click="NavButton_Click" Tag="Notifications"/>
+            Style="{StaticResource NavButton}"
+            Click="NavButton_Click" Tag="Reports"/>
 
-                    <TextBlock Text="SETTINGS" FontSize="10" Foreground="#AAAAAA"
-                               Margin="8,12,0,4" FontWeight="SemiBold"/>
+                    <Button x:Name="BtnBudget" Content="🎯  Budget"
+            Style="{StaticResource NavButton}"
+            Click="NavButton_Click" Tag="Budget"/>
+
+                    <Button x:Name="BtnNotifications" Content="🔔  Notifications"
+            Style="{StaticResource NavButton}"
+            Click="NavButton_Click" Tag="Notifications"/>
+
+                    <TextBlock x:Name="LblSettings"
+               Text="SETTINGS"
+               FontSize="10"
+               Foreground="#AAAAAA"
+               Margin="8,14,0,6"
+               FontWeight="SemiBold"/>
 
                     <Button x:Name="BtnSettings" Content="⚙️  Settings"
-                            Style="{StaticResource NavButton}"
-                            Click="NavButton_Click" Tag="Settings"/>
+            Style="{StaticResource NavButton}"
+            Click="NavButton_Click" Tag="Settings"/>
+
                 </StackPanel>
             </DockPanel>
         </Border>
