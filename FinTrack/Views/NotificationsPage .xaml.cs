@@ -29,10 +29,9 @@ public partial class NotificationsPage : Page
         using var db = DatabaseHelper.GetContext();
 
         // Check if we already generated today's alerts
-        var today = DateTime.Today;
-        var alreadyRan = db.Notifications
-            .Any(n => n.CreatedAt.Date == today);
-        if (alreadyRan) return;
+        var old = db.Notifications.ToList();
+        db.Notifications.RemoveRange(old);
+        db.SaveChanges();
 
         var txns = db.Transactions
             .Where(t => !t.IsDeleted)

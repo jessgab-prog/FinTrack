@@ -46,9 +46,7 @@ public partial class DashboardPage : Page
             .Where(t => !t.IsDeleted)
             .ToList();
 
-        var thisMonth = allTxns
-            .Where(t => t.Date >= startOfMonth)
-            .ToList();
+        var thisMonth = allTxns;
 
         // KPI Cards
         var income = thisMonth.Where(t => t.Type == "Income").Sum(t => t.Amount);

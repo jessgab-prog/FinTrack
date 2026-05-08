@@ -69,17 +69,23 @@
                 </Border>
 
                 <!-- Transactions -->
+                <!-- Transactions -->
                 <Border Grid.Column="3" Background="White" CornerRadius="10"
-                        BorderBrush="#E8E8E2" BorderThickness="1"
-                        Padding="16">
+        BorderBrush="#E8E8E2" BorderThickness="1"
+        Padding="16">
                     <StackPanel>
                         <TextBlock Text="Transactions" FontSize="11"
-                                   Foreground="#888" Margin="0,0,0,8"/>
+                   Foreground="#888" Margin="0,0,0,8"/>
+
                         <TextBlock x:Name="TxtTxnCount" Text="0"
-                                   FontSize="22" FontWeight="SemiBold"
-                                   Foreground="#1A1A1A"/>
-                        <TextBlock Text="This month" FontSize="11"
-                                   Foreground="#AAA" Margin="0,4,0,0"/>
+                   FontSize="22" FontWeight="SemiBold"
+                   Foreground="#1A1A1A"/>
+
+                        <TextBlock x:Name="TxtTxnSub"
+                   Text="All time"
+                   FontSize="11"
+                   Foreground="#AAA"
+                   Margin="0,4,0,0"/>
                     </StackPanel>
                 </Border>
             </Grid>
