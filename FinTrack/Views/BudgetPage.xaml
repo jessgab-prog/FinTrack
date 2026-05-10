@@ -1,0 +1,270 @@
+﻿<Page x:Class="FinTrack.Views.BudgetPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="#F5F5F0">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock x:Name="TxtTitle" Text="Budget Planner"
+                           FontSize="20" FontWeight="SemiBold"
+                           Foreground="#1A1A1A"/>
+                <TextBlock x:Name="TxtSubtitle"
+                           Text="Set monthly spending limits and track your progress"
+                           FontSize="12" Foreground="#888" Margin="0,2,0,0"/>
+            </StackPanel>
+            <Button Grid.Column="1" Content="+ Add Budget"
+                    Height="36" Padding="16,0"
+                    Background="#1D9E75" Foreground="White"
+                    FontWeight="SemiBold" BorderThickness="0"
+                    Cursor="Hand" Click="BtnAddBudget_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="6"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Grid>
+
+        <!-- Month selector -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal"
+                    Margin="0,0,0,16">
+            <TextBlock Text="Viewing:" FontSize="12"
+                       Foreground="#888" VerticalAlignment="Center"
+                       Margin="0,0,8,0"/>
+            <ComboBox x:Name="CmbMonth" Height="32" Width="130"
+                      FontSize="12" BorderBrush="#DDD"
+                      Margin="0,0,8,0"
+                      SelectionChanged="CmbMonth_Changed"/>
+            <ComboBox x:Name="CmbYear" Height="32" Width="80"
+                      FontSize="12" BorderBrush="#DDD"
+                      SelectionChanged="CmbYear_Changed"/>
+        </StackPanel>
+
+        <!-- Summary cards -->
+        <Grid Grid.Row="2" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border x:Name="CardTotalBudget" Grid.Column="0"
+                    Background="White" CornerRadius="10"
+                    BorderBrush="#E8E8E2" BorderThickness="1"
+                    Margin="0,0,10,0" Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Total Budget" FontSize="11"
+                               Foreground="#888" Margin="0,0,0,6"/>
+                    <TextBlock x:Name="TxtTotalBudget" Text="₱0.00"
+                               FontSize="22" FontWeight="SemiBold"
+                               Foreground="#1A1A1A"/>
+                    <TextBlock Text="Planned spending limit"
+                               FontSize="11" Foreground="#AAA"
+                               Margin="0,4,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <Border x:Name="CardTotalSpent" Grid.Column="1"
+                    Background="White" CornerRadius="10"
+                    BorderBrush="#E8E8E2" BorderThickness="1"
+                    Margin="0,0,10,0" Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Total Spent" FontSize="11"
+                               Foreground="#888" Margin="0,0,0,6"/>
+                    <TextBlock x:Name="TxtTotalSpent" Text="₱0.00"
+                               FontSize="22" FontWeight="SemiBold"
+                               Foreground="#E24B4A"/>
+                    <TextBlock Text="Actual expenses this month"
+                               FontSize="11" Foreground="#AAA"
+                               Margin="0,4,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <Border x:Name="CardRemaining" Grid.Column="2"
+                    Background="White" CornerRadius="10"
+                    BorderBrush="#E8E8E2" BorderThickness="1"
+                    Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Remaining" FontSize="11"
+                               Foreground="#888" Margin="0,0,0,6"/>
+                    <TextBlock x:Name="TxtRemaining" Text="₱0.00"
+                               FontSize="22" FontWeight="SemiBold"
+                               Foreground="#1D9E75"/>
+                    <TextBlock x:Name="TxtRemainingLabel"
+                               Text="Budget left to spend"
+                               FontSize="11" Foreground="#AAA"
+                               Margin="0,4,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Budget list -->
+        <Border Grid.Row="3" x:Name="CardBudgets"
+                Background="White" CornerRadius="10"
+                BorderBrush="#E8E8E2" BorderThickness="1"
+                Padding="20">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Category" FontSize="11"
+                                   FontWeight="SemiBold" Foreground="#888"/>
+                        <TextBlock Grid.Column="1" Text="Budget"
+                                   FontSize="11" FontWeight="SemiBold"
+                                   Foreground="#888" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Column="2" Text="Spent"
+                                   FontSize="11" FontWeight="SemiBold"
+                                   Foreground="#888" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Column="3" Text="Remaining"
+                                   FontSize="11" FontWeight="SemiBold"
+                                   Foreground="#888" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Column="4" Text="Actions"
+                                   FontSize="11" FontWeight="SemiBold"
+                                   Foreground="#888" HorizontalAlignment="Center"/>
+                    </Grid>
+
+                    <ItemsControl x:Name="BudgetList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="#F0F0EA"
+                                        BorderThickness="0,1,0,0"
+                                        Padding="0,14,0,14">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="80"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Category name + status -->
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding CategoryName}"
+                                                           FontSize="13"
+                                                           FontWeight="Medium"
+                                                           Foreground="#1A1A1A"/>
+                                                <TextBlock Text="{Binding StatusText}"
+                                                           FontSize="11"
+                                                           Foreground="{Binding StatusColor}"/>
+                                            </StackPanel>
+
+                                            <!-- Budget amount -->
+                                            <TextBlock Grid.Column="1"
+                                                       Text="{Binding BudgetAmount, StringFormat=₱{0:N2}}"
+                                                       FontSize="13" Foreground="#444"
+                                                       HorizontalAlignment="Right"
+                                                       VerticalAlignment="Center"/>
+
+                                            <!-- Spent amount -->
+                                            <TextBlock Grid.Column="2"
+                                                       Text="{Binding SpentAmount, StringFormat=₱{0:N2}}"
+                                                       FontSize="13"
+                                                       Foreground="{Binding SpentColor}"
+                                                       HorizontalAlignment="Right"
+                                                       VerticalAlignment="Center"/>
+
+                                            <!-- Remaining -->
+                                            <TextBlock Grid.Column="3"
+                                                       Text="{Binding RemainingAmount, StringFormat=₱{0:N2}}"
+                                                       FontSize="13"
+                                                       Foreground="{Binding RemainingColor}"
+                                                       FontWeight="Medium"
+                                                       HorizontalAlignment="Right"
+                                                       VerticalAlignment="Center"/>
+
+                                            <!-- Actions -->
+                                            <StackPanel Grid.Column="4"
+                                                        Orientation="Horizontal"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center">
+                                                <Button Content="Edit" Width="36" Height="26"
+                                                        Margin="0,0,4,0" FontSize="11"
+                                                        Background="#E1F5EE" Foreground="#0F6E56"
+                                                        BorderThickness="0" Cursor="Hand"
+                                                        Tag="{Binding Id}"
+                                                        Click="BtnEditBudget_Click">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="4"/>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+                                                <Button Content="Del" Width="32" Height="26"
+                                                        FontSize="11"
+                                                        Background="#FDECEA" Foreground="#C0392B"
+                                                        BorderThickness="0" Cursor="Hand"
+                                                        Tag="{Binding Id}"
+                                                        Click="BtnDeleteBudget_Click">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="4"/>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <!-- Progress bar -->
+                                        <Border Height="8" CornerRadius="4"
+                                                Background="#F0F0EA">
+                                            <Border CornerRadius="4"
+                                                    HorizontalAlignment="Left"
+                                                    Height="8"
+                                                    Width="{Binding ProgressWidth}"
+                                                    Background="{Binding ProgressColor}"/>
+                                        </Border>
+
+                                        <!-- Percentage text -->
+                                        <TextBlock Text="{Binding ProgressText}"
+                                                   FontSize="11" Foreground="#AAA"
+                                                   Margin="0,4,0,0"
+                                                   HorizontalAlignment="Right"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <!-- Empty state -->
+                    <StackPanel x:Name="EmptyState"
+                                HorizontalAlignment="Center"
+                                Margin="0,40,0,40"
+                                Visibility="Collapsed">
+                        <TextBlock Text="📋" FontSize="40"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,12"/>
+                        <TextBlock Text="No budgets set yet"
+                                   FontSize="14" FontWeight="Medium"
+                                   Foreground="#888"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Click '+ Add Budget' to set a spending limit for a category"
+                                   FontSize="12" Foreground="#AAA"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</Page>

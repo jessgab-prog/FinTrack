@@ -1,0 +1,80 @@
+﻿<Window x:Class="FinTrack.Views.BudgetDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Budget" Height="360" Width="420"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize" Background="#F5F5F0">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="28">
+            <TextBlock x:Name="TxtTitle" Text="Add Budget"
+                       FontSize="16" FontWeight="SemiBold"
+                       Foreground="#1A1A1A" Margin="0,0,0,20"/>
+
+            <TextBlock Text="Expense Category" FontSize="12"
+                       Foreground="#555" Margin="0,0,0,4"/>
+            <ComboBox x:Name="CmbCategory" Height="36" FontSize="13"
+                      DisplayMemberPath="Name" SelectedValuePath="Id"
+                      BorderBrush="#DDD" Margin="0,0,0,12"/>
+
+            <TextBlock Text="Monthly Budget Amount (₱)" FontSize="12"
+                       Foreground="#555" Margin="0,0,0,4"/>
+            <TextBox x:Name="TxtAmount" Height="36" FontSize="13"
+                     Padding="10,0" VerticalContentAlignment="Center"
+                     BorderBrush="#DDD" Margin="0,0,0,12"/>
+
+            <Grid Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,6,0">
+                    <TextBlock Text="Month" FontSize="12"
+                               Foreground="#555" Margin="0,0,0,4"/>
+                    <ComboBox x:Name="CmbMonth" Height="36"
+                              FontSize="13" BorderBrush="#DDD"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="6,0,0,0">
+                    <TextBlock Text="Year" FontSize="12"
+                               Foreground="#555" Margin="0,0,0,4"/>
+                    <ComboBox x:Name="CmbYear" Height="36"
+                              FontSize="13" BorderBrush="#DDD"/>
+                </StackPanel>
+            </Grid>
+
+            <TextBlock x:Name="TxtError" Foreground="#E24B4A"
+                       FontSize="12" Margin="0,0,0,8"
+                       Visibility="Collapsed"/>
+
+            <Grid Margin="0,8,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Cancel" Height="42"
+                        Margin="0,0,6,0" Background="#EEE"
+                        Foreground="#444" FontSize="13"
+                        BorderThickness="0" Cursor="Hand"
+                        Click="BtnCancel_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Grid.Column="1" Content="Save Budget" Height="42"
+                        Margin="6,0,0,0"
+                        Background="#1D9E75" Foreground="White"
+                        FontSize="13" FontWeight="SemiBold"
+                        BorderThickness="0" Cursor="Hand"
+                        Click="BtnSave_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

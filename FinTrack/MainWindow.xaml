@@ -46,22 +46,54 @@
 
                 <!-- User info at bottom -->
                 <Border DockPanel.Dock="Bottom" Padding="12,10"
-                        BorderBrush="#E8E8E2" BorderThickness="0,1,0,0">
-                    <StackPanel Orientation="Horizontal">
-                        <Border Background="#E1F5EE" Width="32" Height="32"
-                                CornerRadius="16">
-                            <TextBlock x:Name="TxtUserInitials"
-                                       FontSize="12" FontWeight="SemiBold"
-                                       Foreground="#0F6E56"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-                        </Border>
-                        <StackPanel Margin="8,0,0,0" VerticalAlignment="Center">
-                            <TextBlock x:Name="TxtUserName" FontSize="12"
-                                       FontWeight="Medium" Foreground="#1A1A1A"/>
-                            <TextBlock x:Name="TxtUserRole" FontSize="10"
-                                       Foreground="#999"/>
+        BorderBrush="#E8E8E2" BorderThickness="0,1,0,0">
+                    <StackPanel>
+
+                        <!-- User details -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <Border Background="#E1F5EE" Width="32" Height="32"
+                    CornerRadius="16">
+                                <TextBlock x:Name="TxtUserInitials"
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           Foreground="#0F6E56"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+                            </Border>
+
+                            <StackPanel Margin="8,0,0,0"
+                        VerticalAlignment="Center">
+                                <TextBlock x:Name="TxtUserName"
+                           FontSize="12"
+                           FontWeight="Medium"
+                           Foreground="#1A1A1A"/>
+
+                                <TextBlock x:Name="TxtUserRole"
+                           FontSize="10"
+                           Foreground="#999"/>
+                            </StackPanel>
                         </StackPanel>
+
+                        <!-- Logout button -->
+                        <Button x:Name="BtnLogout"
+                Content="⏻  Log Out"
+                Height="34"
+                HorizontalContentAlignment="Center"
+                Background="#FDECEA"
+                Foreground="#C0392B"
+                FontSize="12"
+                FontWeight="Medium"
+                BorderThickness="0"
+                Cursor="Hand"
+                Click="BtnLogout_Click">
+
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="6"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
                     </StackPanel>
                 </Border>
 

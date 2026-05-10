@@ -56,6 +56,7 @@ public partial class MainWindow : Window
             "Reports" => new ReportsPage(),
             "Notifications" => new NotificationsPage(),
             "Settings" => new SettingsPage(),        // 👈 added Settings
+            "Budget" => new BudgetPage(),      // 👈 added budget
             _ => new DashboardPage()
         });
     }
@@ -125,6 +126,13 @@ public partial class MainWindow : Window
         // Re-navigate to refresh page theme
         if (_activeNavButton != null)
             NavButton_Click(_activeNavButton, new RoutedEventArgs());
+        
+        BtnLogout.Background = ThemeManager.IsDark
+        ? new SolidColorBrush(Color.FromRgb(80, 30, 30))
+        : new SolidColorBrush(Color.FromRgb(253, 236, 234));
+        BtnLogout.Foreground = ThemeManager.IsDark
+            ? new SolidColorBrush(Color.FromRgb(255, 120, 100))
+            : new SolidColorBrush(Color.FromRgb(192, 57, 43));
     }
 
     // Helper to find all children of a type in visual tree
@@ -140,6 +148,21 @@ public partial class MainWindow : Window
 
             foreach (var c in FindVisualChildren<T>(child))
                 yield return c;
+        }
+    }
+    private void BtnLogout_Click(object sender, RoutedEventArgs e)
+    {
+        var result = MessageBox.Show(
+            "Are you sure you want to log out?",
+            "Log Out",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question);
+
+        if (result == MessageBoxResult.Yes)
+        {
+            var login = new Views.LoginWindow();
+            login.Show();
+            this.Close();
         }
     }
     private static SolidColorBrush Brush(string hex) =>
