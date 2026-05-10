@@ -56,23 +56,83 @@
                                FontWeight="SemiBold" Foreground="#1A1A1A"
                                Margin="0,0,0,16"/>
 
-                    <TextBlock Text="Current Password" FontSize="12"
-                               Foreground="#555" Margin="0,0,0,4"/>
-                    <PasswordBox x:Name="TxtCurrentPw" Height="36" FontSize="13"
-                                 Padding="10,0" BorderBrush="#DDD"
-                                 Margin="0,0,0,12"/>
+                            <!-- Current Password -->
+                            <TextBlock Text="Current Password" FontSize="12"
+                    Foreground="#555" Margin="0,0,0,4"/>
+                            <Grid Margin="0,0,0,12">
+                                <PasswordBox x:Name="TxtCurrentPw" Height="36" FontSize="13"
+                            Padding="10,0" BorderBrush="#DDD"/>
+                                <TextBox x:Name="TxtCurrentPwVisible" Height="36" FontSize="13"
+                        Padding="10,0" VerticalContentAlignment="Center"
+                        BorderBrush="#DDD" Visibility="Collapsed"/>
+                        <Button Width="34" Height="34" HorizontalAlignment="Right"
+        Margin="0,0,2,0" Background="Transparent"
+        BorderThickness="0" Cursor="Hand"
+        Click="BtnToggleCurrent_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="Transparent">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Path Fill="#888888" Stretch="Uniform" Width="18" Height="13"
+          Data="M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27-3.11 11-7.5C21.27,7.61 17,4.5 12,4.5z M12,17c-2.76,0-5-2.24-5-5s2.24-5 5-5 5,2.24 5,5-2.24,5-5,5z M12,9c-1.66,0-3,1.34-3,3s1.34,3 3,3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </Button>
+                    </Grid>
 
-                    <TextBlock Text="New Password" FontSize="12"
-                               Foreground="#555" Margin="0,0,0,4"/>
-                    <PasswordBox x:Name="TxtNewPw" Height="36" FontSize="13"
-                                 Padding="10,0" BorderBrush="#DDD"
-                                 Margin="0,0,0,12"/>
+                            <!-- New Password -->
+                            <TextBlock Text="New Password" FontSize="12"
+                    Foreground="#555" Margin="0,0,0,4"/>
+                            <Grid Margin="0,0,0,12">
+                                <PasswordBox x:Name="TxtNewPw" Height="36" FontSize="13"
+                            Padding="10,0" BorderBrush="#DDD"/>
+                                <TextBox x:Name="TxtNewPwVisible" Height="36" FontSize="13"
+                        Padding="10,0" VerticalContentAlignment="Center"
+                        BorderBrush="#DDD" Visibility="Collapsed"/>
+                        <Button Width="34" Height="34" HorizontalAlignment="Right"
+        Margin="0,0,2,0" Background="Transparent"
+        BorderThickness="0" Cursor="Hand"
+        Click="BtnToggleCurrent_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="Transparent">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Path Fill="#888888" Stretch="Uniform" Width="18" Height="13"
+          Data="M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27-3.11 11-7.5C21.27,7.61 17,4.5 12,4.5z M12,17c-2.76,0-5-2.24-5-5s2.24-5 5-5 5,2.24 5,5-2.24,5-5,5z M12,9c-1.66,0-3,1.34-3,3s1.34,3 3,3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </Button>
+                    </Grid>
 
-                    <TextBlock Text="Confirm New Password" FontSize="12"
-                               Foreground="#555" Margin="0,0,0,4"/>
-                    <PasswordBox x:Name="TxtConfirmPw" Height="36" FontSize="13"
-                                 Padding="10,0" BorderBrush="#DDD"
-                                 Margin="0,0,0,12"/>
+                            <!-- Confirm Password -->
+                            <TextBlock Text="Confirm New Password" FontSize="12"
+                    Foreground="#555" Margin="0,0,0,4"/>
+                            <Grid Margin="0,0,0,12">
+                                <PasswordBox x:Name="TxtConfirmPw" Height="36" FontSize="13"
+                            Padding="10,0" BorderBrush="#DDD"/>
+                                <TextBox x:Name="TxtConfirmPwVisible" Height="36" FontSize="13"
+                        Padding="10,0" VerticalContentAlignment="Center"
+                        BorderBrush="#DDD" Visibility="Collapsed"/>
+                        <Button Width="34" Height="34" HorizontalAlignment="Right"
+        Margin="0,0,2,0" Background="Transparent"
+        BorderThickness="0" Cursor="Hand"
+        Click="BtnToggleCurrent_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="Transparent">
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Path Fill="#888888" Stretch="Uniform" Width="18" Height="13"
+          Data="M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27-3.11 11-7.5C21.27,7.61 17,4.5 12,4.5z M12,17c-2.76,0-5-2.24-5-5s2.24-5 5-5 5,2.24 5,5-2.24,5-5,5z M12,9c-1.66,0-3,1.34-3,3s1.34,3 3,3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </Button>
+                    </Grid>
 
                     <TextBlock x:Name="TxtPwMsg" FontSize="12"
                                Margin="0,0,0,8" Visibility="Collapsed"/>

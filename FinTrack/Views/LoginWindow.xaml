@@ -41,11 +41,37 @@
                      Background="White"/>
 
             <TextBlock Text="Password" FontSize="12"
-                       Foreground="#555" Margin="0,16,0,4"/>
-            <PasswordBox x:Name="TxtPassword" Height="38" FontSize="14"
-                         Padding="10,0" VerticalContentAlignment="Center"
-                         BorderBrush="#DDD" BorderThickness="1"
-                         Background="White"/>
+           Foreground="#555" Margin="0,16,0,4"/>
+            <Grid>
+                <PasswordBox x:Name="TxtPassword" Height="38" FontSize="14"
+                 Padding="10,0" VerticalContentAlignment="Center"
+                 BorderBrush="#DDD" BorderThickness="1"
+                 Background="White"/>
+                <TextBox x:Name="TxtPasswordVisible" Height="38" FontSize="14"
+             Padding="10,0" VerticalContentAlignment="Center"
+             BorderBrush="#DDD" BorderThickness="1"
+             Background="White" Visibility="Collapsed"/>
+                <Button x:Name="BtnToggleLogin" Width="36" Height="36"
+        HorizontalAlignment="Right" Margin="0,0,2,0"
+        Background="Transparent" BorderThickness="0"
+        Cursor="Hand" Click="BtnToggleLogin_Click">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent"
+                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Path x:Name="EyePath"
+          Fill="#888888"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center"
+          Stretch="Uniform" Width="20" Height="14"
+          Data="M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27-3.11 11-7.5C21.27,7.61 17,4.5 12,4.5z M12,17c-2.76,0-5-2.24-5-5s2.24-5 5-5 5,2.24 5,5-2.24,5-5,5z M12,9c-1.66,0-3,1.34-3,3s1.34,3 3,3 3-1.34 3-3-1.34-3-3-3z"/>
+                </Button>
+            </Grid>
 
             <!-- Error message -->
             <TextBlock x:Name="TxtError" Foreground="#E24B4A"

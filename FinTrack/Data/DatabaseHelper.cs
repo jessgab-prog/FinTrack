@@ -11,7 +11,6 @@ public static class DatabaseHelper
 {
     public static AppDbContext GetContext() => new AppDbContext();
 
-    // Seed a default admin user if none exists
     public static void SeedAdminUser()
     {
         using var db = GetContext();
