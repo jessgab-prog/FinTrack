@@ -20,7 +20,7 @@ public partial class BudgetPage : Page
         LoadBudgets();
     }
 
-    private void ApplyTheme()
+    public void ApplyTheme()
     {
         this.Background = ThemeManager.PageBackground;
         TxtTitle.Foreground = ThemeManager.TextPrimary;

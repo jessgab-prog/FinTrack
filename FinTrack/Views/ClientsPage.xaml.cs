@@ -18,7 +18,7 @@ public partial class ClientsPage : Page
         LoadClients();
     }
 
-    private void ApplyTheme()
+    public void ApplyTheme()
     {
         this.Background = ThemeManager.PageBackground;
 

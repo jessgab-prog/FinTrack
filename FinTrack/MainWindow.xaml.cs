@@ -10,6 +10,15 @@ public partial class MainWindow : Window
     private Button? _activeNavButton;
     private bool _isDark = false;
 
+    // Cache pages so they don't reload on theme toggle
+    private DashboardPage? _dashboardPage;
+    private TransactionsPage? _transactionsPage;
+    private ClientsPage? _clientsPage;
+    private ReportsPage? _reportsPage;
+    private NotificationsPage? _notificationsPage;
+    private SettingsPage? _settingsPage;
+    private BudgetPage? _budgetPage;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -48,16 +57,17 @@ public partial class MainWindow : Window
         activeBtn.Foreground = new SolidColorBrush(Color.FromRgb(15, 110, 86));
         TxtPageTitle.Text = page;
 
+        // Use cached pages — only create once
         MainFrame.Navigate(page switch
         {
-            "Dashboard" => new DashboardPage(),
-            "Transactions" => new TransactionsPage(),
-            "Clients" => new ClientsPage(),
-            "Reports" => new ReportsPage(),
-            "Notifications" => new NotificationsPage(),
-            "Settings" => new SettingsPage(),        // 👈 added Settings
-            "Budget" => new BudgetPage(),      // 👈 added budget
-            _ => new DashboardPage()
+            "Dashboard" => _dashboardPage ??= new DashboardPage(),
+            "Transactions" => _transactionsPage ??= new TransactionsPage(),
+            "Clients" => _clientsPage ??= new ClientsPage(),
+            "Reports" => _reportsPage ??= new ReportsPage(),
+            "Notifications" => _notificationsPage ??= new NotificationsPage(),
+            "Settings" => _settingsPage ??= new SettingsPage(),
+            "Budget" => _budgetPage ??= new BudgetPage(),
+            _ => _dashboardPage ??= new DashboardPage()
         });
     }
 
@@ -79,24 +89,16 @@ public partial class MainWindow : Window
     {
         ThemeManager.Apply(_isDark);
 
-        // Window
+        // Shell
         this.Background = ThemeManager.PageBackground;
         MainFrame.Background = ThemeManager.PageBackground;
-
-        // Sidebar
         SidebarBorder.Background = ThemeManager.CardBackground;
         SidebarBorder.BorderBrush = ThemeManager.BorderColor;
-
-        // Topbar
         TopBarBorder.Background = ThemeManager.CardBackground;
         TopBarBorder.BorderBrush = ThemeManager.BorderColor;
-
-        // Text
         TxtPageTitle.Foreground = ThemeManager.TextPrimary;
         TxtUserName.Foreground = ThemeManager.TextPrimary;
         TxtUserRole.Foreground = ThemeManager.TextSecondary;
-
-        // Logo text
         TxtLogoName.Foreground = ThemeManager.TextPrimary;
         TxtLogoSub.Foreground = ThemeManager.TextSecondary;
 
@@ -104,7 +106,6 @@ public partial class MainWindow : Window
         var sectionColor = ThemeManager.IsDark
             ? new SolidColorBrush(Color.FromRgb(90, 90, 100))
             : new SolidColorBrush(Color.FromRgb(170, 170, 170));
-
         LblMain.Foreground = sectionColor;
         LblInsights.Foreground = sectionColor;
         LblSettings.Foreground = sectionColor;
@@ -113,43 +114,32 @@ public partial class MainWindow : Window
         var navColor = ThemeManager.IsDark
             ? new SolidColorBrush(Color.FromRgb(180, 180, 190))
             : new SolidColorBrush(Color.FromRgb(68, 68, 68));
-
-        foreach (var btn in new[] {
-        BtnDashboard, BtnTransactions, BtnClients,
-        BtnReports, BtnNotifications, BtnSettings
-    })
+        foreach (var btn in new[] { BtnDashboard, BtnTransactions, BtnClients,
+                                    BtnReports, BtnNotifications, BtnSettings,
+                                    BtnBudget })
         {
             if (btn != _activeNavButton)
                 btn.Foreground = navColor;
         }
 
-        // Re-navigate to refresh page theme
-        if (_activeNavButton != null)
-            NavButton_Click(_activeNavButton, new RoutedEventArgs());
-        
+        // Logout button
         BtnLogout.Background = ThemeManager.IsDark
-        ? new SolidColorBrush(Color.FromRgb(80, 30, 30))
-        : new SolidColorBrush(Color.FromRgb(253, 236, 234));
+            ? new SolidColorBrush(Color.FromRgb(80, 30, 30))
+            : new SolidColorBrush(Color.FromRgb(253, 236, 234));
         BtnLogout.Foreground = ThemeManager.IsDark
             ? new SolidColorBrush(Color.FromRgb(255, 120, 100))
             : new SolidColorBrush(Color.FromRgb(192, 57, 43));
+
+        // Apply theme to all cached pages that exist
+        _dashboardPage?.ApplyTheme();
+        _transactionsPage?.ApplyTheme();
+        _clientsPage?.ApplyTheme();
+        _reportsPage?.ApplyTheme();
+        _notificationsPage?.ApplyTheme();
+        _settingsPage?.ApplyTheme();
+        _budgetPage?.ApplyTheme();
     }
 
-    // Helper to find all children of a type in visual tree
-    private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent)
-        where T : DependencyObject
-    {
-        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-        {
-            var child = VisualTreeHelper.GetChild(parent, i);
-
-            if (child is T t)
-                yield return t;
-
-            foreach (var c in FindVisualChildren<T>(child))
-                yield return c;
-        }
-    }
     private void BtnLogout_Click(object sender, RoutedEventArgs e)
     {
         var result = MessageBox.Show(
@@ -165,6 +155,4 @@ public partial class MainWindow : Window
             this.Close();
         }
     }
-    private static SolidColorBrush Brush(string hex) =>
-        new((Color)ColorConverter.ConvertFromString(hex));
 }

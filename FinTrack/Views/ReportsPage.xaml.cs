@@ -18,7 +18,7 @@ public partial class ReportsPage : Page
         LoadReport();
     }
 
-    private void ApplyTheme()
+    public void ApplyTheme()
     {
         this.Background = ThemeManager.PageBackground;
         CardIncome.Background = ThemeManager.CardBackground;

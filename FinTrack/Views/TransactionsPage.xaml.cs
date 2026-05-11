@@ -20,7 +20,7 @@ public partial class TransactionsPage : Page
         LoadTransactions();
     }
 
-    private void ApplyTheme()
+    public void ApplyTheme()
     {
         this.Background = ThemeManager.PageBackground;
         DgTransactions.Background = ThemeManager.GridBackground;

@@ -25,7 +25,7 @@ public partial class DashboardPage : Page
         LoadDashboard();
     }
 
-    private void ApplyTheme()
+    public void ApplyTheme()
     {
         this.Background = ThemeManager.PageBackground;
     }

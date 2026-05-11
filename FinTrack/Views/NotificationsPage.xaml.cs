@@ -17,7 +17,7 @@ public partial class NotificationsPage : Page
         LoadNotifications();
     }
 
-    private void ApplyTheme()
+    public void ApplyTheme()
     {
         this.Background = ThemeManager.PageBackground;
         CardBorder.Background = ThemeManager.CardBackground;
