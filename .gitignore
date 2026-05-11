@@ -4,3 +4,4 @@
 bin/ 
 obj/ 
 .vs/ 
+FinTrack/FinTrack.csproj.user 
