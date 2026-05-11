@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="FinTrack" Height="700" Width="1100"
         WindowStartupLocation="CenterScreen"
+        Icon="Logo-FinTrack.ico"
         Background="#F5F5F0">
 
     <Grid>
@@ -17,29 +18,20 @@
             <DockPanel>
 
                 <!-- Logo -->
+                <!-- Logo -->
                 <Border DockPanel.Dock="Top" Padding="16,18,16,14"
-                        BorderBrush="#E8E8E2" BorderThickness="0,0,0,1">
+            Background="#1D9E75"
+            BorderBrush="#0F6E56" BorderThickness="0,0,0,1">
                     <StackPanel Orientation="Horizontal">
-                        <Border Background="#1D9E75" Width="32" Height="32"
-                                CornerRadius="8">
-                            <TextBlock Text="₱" FontSize="16" FontWeight="Bold"
-                                       Foreground="White"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-                        </Border>
+                        <Image Source="/Logo-FinTrack.ico"
+               Width="36" Height="36"
+               RenderOptions.BitmapScalingMode="HighQuality"/>
                         <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
-
-                            <TextBlock x:Name="TxtLogoName"
-               Text="FinTrack"
-               FontSize="14"
-               FontWeight="SemiBold"
-               Foreground="#1A1A1A"/>
-
-                            <TextBlock x:Name="TxtLogoSub"
-               Text="Finance Manager"
-               FontSize="10"
-               Foreground="#999"/>
-
+                            <TextBlock x:Name="TxtLogoName" Text="FinTrack"
+                       FontSize="14" FontWeight="SemiBold"
+                       Foreground="White"/>
+                            <TextBlock x:Name="TxtLogoSub" Text="Finance Manager"
+                       FontSize="10" Foreground="#A8DFC9"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>

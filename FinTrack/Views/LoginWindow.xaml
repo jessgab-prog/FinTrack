@@ -4,6 +4,7 @@
         Title="FinTrack" Height="520" Width="420"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
+        Icon="/Logo-FinTrack.ico"
         Background="#F5F5F0">
 
     <Grid>
@@ -14,19 +15,20 @@
 
         <!-- Header -->
         <Border Grid.Row="0" Background="#1D9E75" CornerRadius="0">
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Border Background="#0F6E56" Width="56" Height="56"
-                        CornerRadius="12" HorizontalAlignment="Center">
-                    <TextBlock Text="₱" FontSize="28" FontWeight="Bold"
-                               Foreground="White" HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+                Margin="0,20,0,20">
+                <Border Width="80" Height="80" CornerRadius="16"
+                HorizontalAlignment="Center" Margin="0,0,0,12">
+                    <Image Source="/Logo-FinTrack.ico"
+                           Width="80" Height="80"
+                           RenderOptions.BitmapScalingMode="HighQuality"/>
                 </Border>
                 <TextBlock Text="FinTrack" FontSize="24" FontWeight="SemiBold"
-                           Foreground="White" HorizontalAlignment="Center"
-                           Margin="0,10,0,2"/>
+                   Foreground="White" HorizontalAlignment="Center"
+                   Margin="0,0,0,2"/>
                 <TextBlock Text="Small Business Finance Manager"
-                           FontSize="12" Foreground="#A8DFC9"
-                           HorizontalAlignment="Center"/>
+                   FontSize="12" Foreground="#A8DFC9"
+                   HorizontalAlignment="Center"/>
             </StackPanel>
         </Border>
 
