@@ -23,6 +23,7 @@ public partial class SettingsPage : Page
     public SettingsPage()
     {
         InitializeComponent();
+
         ApplyTheme();
         LoadProfile();
         LoadUsers();
@@ -32,19 +33,17 @@ public partial class SettingsPage : Page
     {
         this.Background = ThemeManager.PageBackground;
 
-        // ===== Titles =====
         if (TxtTitle != null)
             TxtTitle.Foreground = ThemeManager.TextPrimary;
 
-        // ===== Cards =====
         foreach (var card in new[]
         {
-        CardProfile,
-        CardPassword,
-        CardInfo,
-        CardAddUser,
-        CardUsers
-    })
+            CardProfile,
+            CardPassword,
+            CardAddUser,
+            CardUsers,
+            CardInfo
+        })
         {
             if (card != null)
             {
@@ -53,22 +52,17 @@ public partial class SettingsPage : Page
             }
         }
 
-        // ===== Preserve existing text =====
-        string fullName = TxtFullName?.Text ?? "";
-        string username = TxtUsername?.Text ?? "";
-
-        // ===== TextBoxes =====
         foreach (var tb in new[]
         {
-        TxtFullName,
-        TxtUsername,
-        TxtNewUserName,
-        TxtNewUserUsername,
-        TxtCurrentPwVisible,
-        TxtNewPwVisible,
-        TxtConfirmPwVisible,
-        TxtNewUserPwVisible
-    })
+            TxtFullName,
+            TxtUsername,
+            TxtNewUserName,
+            TxtNewUserUsername,
+            TxtCurrentPwVisible,
+            TxtNewPwVisible,
+            TxtConfirmPwVisible,
+            TxtNewUserPwVisible
+        })
         {
             if (tb != null)
             {
@@ -79,21 +73,13 @@ public partial class SettingsPage : Page
             }
         }
 
-        // Restore profile text
-        if (TxtFullName != null)
-            TxtFullName.Text = fullName;
-
-        if (TxtUsername != null)
-            TxtUsername.Text = username;
-
-        // ===== PasswordBoxes =====
         foreach (var pb in new[]
         {
-        TxtCurrentPw,
-        TxtNewPw,
-        TxtConfirmPw,
-        TxtNewUserPw
-    })
+            TxtCurrentPw,
+            TxtNewPw,
+            TxtConfirmPw,
+            TxtNewUserPw
+        })
         {
             if (pb != null)
             {
@@ -104,42 +90,32 @@ public partial class SettingsPage : Page
             }
         }
 
-        // ===== ComboBoxes =====
-        foreach (var cb in new[]
+        if (CmbNewUserRole != null)
         {
-        CmbNewUserRole
-    })
-        {
-            if (cb != null)
-            {
-                cb.Background = ThemeManager.InputBackground;
-                cb.Foreground = ThemeManager.InputForeground;
-                cb.BorderBrush = ThemeManager.BorderColor;
-
-                // Fix unreadable dropdown items
-                cb.Resources[SystemColors.WindowBrushKey] =
-                    ThemeManager.InputBackground;
-
-                cb.Resources[SystemColors.ControlTextBrushKey] =
-                    ThemeManager.TextPrimary;
-            }
+            CmbNewUserRole.Background = ThemeManager.InputBackground;
+            CmbNewUserRole.Foreground = ThemeManager.InputForeground;
+            CmbNewUserRole.BorderBrush = ThemeManager.BorderColor;
         }
 
-        // ===== DataGrid =====
         if (DgUsers != null)
             ThemeManager.ApplyToDataGrid(DgUsers);
 
-        // ===== Apply theme to remaining controls =====
         ThemeManager.ApplyToVisualTree(this);
-    }   
+    }
+
     private void LoadProfile()
     {
         var user = LoginWindow.LoggedInUser;
-        if (user == null) return;
+
+        if (user == null)
+            return;
 
         using var db = DatabaseHelper.GetContext();
+
         var dbUser = db.Users.Find(user.Id);
-        if (dbUser == null) return;
+
+        if (dbUser == null)
+            return;
 
         TxtFullName.Text = dbUser.FullName;
         TxtUsername.Text = dbUser.Username;
@@ -148,112 +124,155 @@ public partial class SettingsPage : Page
     private void LoadUsers()
     {
         using var db = DatabaseHelper.GetContext();
+
         DgUsers.ItemsSource = db.Users.ToList();
+
         ThemeManager.ApplyToDataGrid(DgUsers);
-    }
-
-    private void BtnSaveProfile_Click(object sender, RoutedEventArgs e)
-    {
-        var sessionUser = LoginWindow.LoggedInUser;
-        if (sessionUser == null) return;
-
-        string newFullName = TxtFullName.Text.Trim();
-        string newUsername = TxtUsername.Text.Trim();
-
-        if (string.IsNullOrWhiteSpace(newFullName))
-        { ShowMsg(TxtProfileMsg, "Full name cannot be empty.", false); return; }
-
-        if (string.IsNullOrWhiteSpace(newUsername))
-        { ShowMsg(TxtProfileMsg, "Username cannot be empty.", false); return; }
-
-        using var db = DatabaseHelper.GetContext();
-
-        var existing = db.Users.FirstOrDefault(u =>
-            u.Username == newUsername && u.Id != sessionUser.Id);
-        if (existing != null)
-        { ShowMsg(TxtProfileMsg, "That username is already taken.", false); return; }
-
-        var dbUser = db.Users.Find(sessionUser.Id);
-        if (dbUser == null) return;
-
-        dbUser.FullName = newFullName;
-        dbUser.Username = newUsername;
-        db.SaveChanges();
-
-        sessionUser.FullName = newFullName;
-        sessionUser.Username = newUsername;
-
-        ShowMsg(TxtProfileMsg, "Profile saved successfully!", true);
-        LoadUsers();
     }
 
     private void BtnChangePw_Click(object sender, RoutedEventArgs e)
     {
         var sessionUser = LoginWindow.LoggedInUser;
-        if (sessionUser == null) return;
 
-        string currentPw = _showCurrent ? TxtCurrentPwVisible.Text : TxtCurrentPw.Password;
-        string newPw = _showNew ? TxtNewPwVisible.Text : TxtNewPw.Password;
-        string confirmPw = _showConfirm ? TxtConfirmPwVisible.Text : TxtConfirmPw.Password;
+        if (sessionUser == null)
+            return;
+
+        string currentPw = _showCurrent
+            ? TxtCurrentPwVisible.Text
+            : TxtCurrentPw.Password;
+
+        string newPw = _showNew
+            ? TxtNewPwVisible.Text
+            : TxtNewPw.Password;
+
+        string confirmPw = _showConfirm
+            ? TxtConfirmPwVisible.Text
+            : TxtConfirmPw.Password;
 
         if (string.IsNullOrWhiteSpace(currentPw))
-        { ShowMsg(TxtPwMsg, "Please enter your current password.", false); return; }
+        {
+            ShowMsg(TxtPwMsg,
+                "Please enter your current password.",
+                false);
+            return;
+        }
 
         if (string.IsNullOrWhiteSpace(newPw))
-        { ShowMsg(TxtPwMsg, "Please enter a new password.", false); return; }
+        {
+            ShowMsg(TxtPwMsg,
+                "Please enter a new password.",
+                false);
+            return;
+        }
 
         using var db = DatabaseHelper.GetContext();
+
         var dbUser = db.Users.Find(sessionUser.Id);
-        if (dbUser == null) return;
+
+        if (dbUser == null)
+            return;
 
         if (!BCrypt.Net.BCrypt.Verify(currentPw, dbUser.PasswordHash))
-        { ShowMsg(TxtPwMsg, "Current password is incorrect.", false); return; }
+        {
+            ShowMsg(TxtPwMsg,
+                "Current password is incorrect.",
+                false);
+            return;
+        }
 
         if (newPw.Length < 6)
-        { ShowMsg(TxtPwMsg, "New password must be at least 6 characters.", false); return; }
+        {
+            ShowMsg(TxtPwMsg,
+                "New password must be at least 6 characters.",
+                false);
+            return;
+        }
 
         if (newPw != confirmPw)
-        { ShowMsg(TxtPwMsg, "New passwords do not match.", false); return; }
+        {
+            ShowMsg(TxtPwMsg,
+                "New passwords do not match.",
+                false);
+            return;
+        }
 
         string newHash = BCrypt.Net.BCrypt.HashPassword(newPw);
+
         dbUser.PasswordHash = newHash;
+
         db.SaveChanges();
+
         sessionUser.PasswordHash = newHash;
 
-        TxtCurrentPw.Password = TxtCurrentPwVisible.Text = "";
-        TxtNewPw.Password = TxtNewPwVisible.Text = "";
-        TxtConfirmPw.Password = TxtConfirmPwVisible.Text = "";
+        TxtCurrentPw.Password = "";
+        TxtCurrentPwVisible.Text = "";
 
-        _showCurrent = false; _showNew = false; _showConfirm = false;
+        TxtNewPw.Password = "";
+        TxtNewPwVisible.Text = "";
+
+        TxtConfirmPw.Password = "";
+        TxtConfirmPwVisible.Text = "";
+
+        _showCurrent = false;
+        _showNew = false;
+        _showConfirm = false;
+
         ResetEye(TxtCurrentPw, TxtCurrentPwVisible, EyeCurrent);
         ResetEye(TxtNewPw, TxtNewPwVisible, EyeNew);
         ResetEye(TxtConfirmPw, TxtConfirmPwVisible, EyeConfirm);
 
-        ShowMsg(TxtPwMsg, "Password changed! Use your new password next login.", true);
+        ShowMsg(TxtPwMsg,
+            "Password changed successfully!",
+            true);
     }
 
     private void BtnAddUser_Click(object sender, RoutedEventArgs e)
     {
         string fullName = TxtNewUserName.Text.Trim();
+
         string username = TxtNewUserUsername.Text.Trim();
+
         string password = _showNewUser
             ? TxtNewUserPwVisible.Text
             : TxtNewUserPw.Password;
-        string role = (CmbNewUserRole.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "Staff";
+
+        string role =
+            (CmbNewUserRole.SelectedItem as ComboBoxItem)?
+            .Content.ToString() ?? "Staff";
 
         if (string.IsNullOrWhiteSpace(fullName))
-        { ShowMsg(TxtAddUserMsg, "Full name is required.", false); return; }
+        {
+            ShowMsg(TxtAddUserMsg,
+                "Full name is required.",
+                false);
+            return;
+        }
 
         if (string.IsNullOrWhiteSpace(username))
-        { ShowMsg(TxtAddUserMsg, "Username is required.", false); return; }
+        {
+            ShowMsg(TxtAddUserMsg,
+                "Username is required.",
+                false);
+            return;
+        }
 
         if (string.IsNullOrWhiteSpace(password) || password.Length < 6)
-        { ShowMsg(TxtAddUserMsg, "Password must be at least 6 characters.", false); return; }
+        {
+            ShowMsg(TxtAddUserMsg,
+                "Password must be at least 6 characters.",
+                false);
+            return;
+        }
 
         using var db = DatabaseHelper.GetContext();
 
         if (db.Users.Any(u => u.Username == username))
-        { ShowMsg(TxtAddUserMsg, $"Username '{username}' is already taken.", false); return; }
+        {
+            ShowMsg(TxtAddUserMsg,
+                $"Username '{username}' is already taken.",
+                false);
+            return;
+        }
 
         db.Users.Add(new FinTrack.Models.User
         {
@@ -262,17 +281,19 @@ public partial class SettingsPage : Page
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
             Role = role
         });
+
         db.SaveChanges();
 
-        // Clear fields
         TxtNewUserName.Text = "";
         TxtNewUserUsername.Text = "";
         TxtNewUserPw.Password = "";
         TxtNewUserPwVisible.Text = "";
+
         CmbNewUserRole.SelectedIndex = 0;
 
         ShowMsg(TxtAddUserMsg,
-            $"✅ User '{username}' created! They can now log in.", true);
+            $"User '{username}' created successfully!",
+            true);
 
         LoadUsers();
     }
@@ -283,26 +304,35 @@ public partial class SettingsPage : Page
         {
             var sessionUser = LoginWindow.LoggedInUser;
 
-            // Prevent deleting yourself
             if (sessionUser?.Id == id)
             {
-                MessageBox.Show("You cannot delete your own account while logged in.",
-                    "Not Allowed", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(
+                    "You cannot delete your own account while logged in.",
+                    "Not Allowed",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+
                 return;
             }
 
             var result = MessageBox.Show(
-                "Delete this user?", "Confirm",
-                MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                "Delete this user?",
+                "Confirm",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
 
             if (result == MessageBoxResult.Yes)
             {
                 using var db = DatabaseHelper.GetContext();
+
                 var user = db.Users.Find(id);
+
                 if (user != null)
                 {
                     db.Users.Remove(user);
+
                     db.SaveChanges();
+
                     LoadUsers();
                 }
             }
@@ -313,66 +343,103 @@ public partial class SettingsPage : Page
     {
         LoadUsers();
         LoadProfile();
-        ShowMsg(TxtProfileMsg, "Data refreshed!", true);
     }
 
-    // Eye toggles
     private void BtnToggleCurrent_Click(object sender, RoutedEventArgs e)
     {
         _showCurrent = !_showCurrent;
-        ToggleField(_showCurrent, TxtCurrentPw, TxtCurrentPwVisible, EyeCurrent);
+
+        ToggleField(
+            _showCurrent,
+            TxtCurrentPw,
+            TxtCurrentPwVisible,
+            EyeCurrent);
     }
 
     private void BtnToggleNew_Click(object sender, RoutedEventArgs e)
     {
         _showNew = !_showNew;
-        ToggleField(_showNew, TxtNewPw, TxtNewPwVisible, EyeNew);
+
+        ToggleField(
+            _showNew,
+            TxtNewPw,
+            TxtNewPwVisible,
+            EyeNew);
     }
 
     private void BtnToggleConfirm_Click(object sender, RoutedEventArgs e)
     {
         _showConfirm = !_showConfirm;
-        ToggleField(_showConfirm, TxtConfirmPw, TxtConfirmPwVisible, EyeConfirm);
+
+        ToggleField(
+            _showConfirm,
+            TxtConfirmPw,
+            TxtConfirmPwVisible,
+            EyeConfirm);
     }
 
     private void BtnToggleNewUser_Click(object sender, RoutedEventArgs e)
     {
         _showNewUser = !_showNewUser;
-        ToggleField(_showNewUser, TxtNewUserPw, TxtNewUserPwVisible, EyeNewUser);
+
+        ToggleField(
+            _showNewUser,
+            TxtNewUserPw,
+            TxtNewUserPwVisible,
+            EyeNewUser);
     }
 
-    private static void ToggleField(bool show,
-        PasswordBox pwBox, TextBox txBox, Path eyePath)
+    private static void ToggleField(
+        bool show,
+        PasswordBox pwBox,
+        TextBox txBox,
+        Path eyePath)
     {
         if (show)
         {
             txBox.Text = pwBox.Password;
+
             txBox.Visibility = Visibility.Visible;
+
             pwBox.Visibility = Visibility.Collapsed;
+
             eyePath.Data = Geometry.Parse(EyeSlash);
         }
         else
         {
             pwBox.Password = txBox.Text;
+
             pwBox.Visibility = Visibility.Visible;
+
             txBox.Visibility = Visibility.Collapsed;
+
             eyePath.Data = Geometry.Parse(EyeOpen);
         }
     }
 
-    private static void ResetEye(PasswordBox pwBox, TextBox txBox, Path eyePath)
+    private static void ResetEye(
+        PasswordBox pwBox,
+        TextBox txBox,
+        Path eyePath)
     {
         pwBox.Visibility = Visibility.Visible;
+
         txBox.Visibility = Visibility.Collapsed;
+
         eyePath.Data = Geometry.Parse(EyeOpen);
     }
 
-    private static void ShowMsg(TextBlock tb, string msg, bool success)
+    private static void ShowMsg(
+        TextBlock tb,
+        string msg,
+        bool success)
     {
         tb.Text = msg;
+
         tb.Foreground = success
             ? new SolidColorBrush(Color.FromRgb(29, 158, 117))
             : new SolidColorBrush(Color.FromRgb(226, 75, 74));
+
         tb.Visibility = Visibility.Visible;
     }
 }

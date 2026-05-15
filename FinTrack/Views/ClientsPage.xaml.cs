@@ -136,20 +136,53 @@ public partial class ClientsPage : Page
     {
         if (sender is Button btn && btn.Tag is int id)
         {
-            var result = MessageBox.Show(
-                "Delete this client?", "Confirm",
-                MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            using var db = DatabaseHelper.GetContext();
 
-            if (result == MessageBoxResult.Yes)
+            // Check if this client has linked transactions
+            var linkedCount = db.Transactions
+                .Count(t => t.ClientId == id && !t.IsDeleted);
+
+            if (linkedCount > 0)
             {
-                using var db = DatabaseHelper.GetContext();
-                var client = db.Clients.Find(id);
-                if (client != null)
-                {
-                    db.Clients.Remove(client);
-                    db.SaveChanges();
-                    LoadClients();
-                }
+                var confirm = MessageBox.Show(
+                    $"This client has {linkedCount} linked transaction(s).\n\n" +
+                    $"Deleting will remove the client link from those transactions " +
+                    $"but keep the transactions.\n\n" +
+                    $"Do you want to continue?",
+                    "Linked Transactions Found",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (confirm == MessageBoxResult.No) return;
+
+                // Unlink transactions before deleting client
+                var linkedTxns = db.Transactions
+                    .Where(t => t.ClientId == id)
+                    .ToList();
+
+                foreach (var txn in linkedTxns)
+                    txn.ClientId = null;
+
+                db.SaveChanges();
+            }
+            else
+            {
+                var confirm = MessageBox.Show(
+                    "Delete this client / vendor?",
+                    "Confirm",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (confirm == MessageBoxResult.No) return;
+            }
+
+            // Now safe to delete
+            var client = db.Clients.Find(id);
+            if (client != null)
+            {
+                db.Clients.Remove(client);
+                db.SaveChanges();
+                LoadClients();
             }
         }
     }

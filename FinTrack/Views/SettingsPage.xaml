@@ -4,252 +4,317 @@
       Background="#F5F5F0">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
+
         <StackPanel Margin="24" MaxWidth="600">
 
-            <TextBlock x:Name="TxtTitle" Text="Settings"
-                       FontSize="20" FontWeight="SemiBold"
-                       Foreground="#1A1A1A" Margin="0,0,0,24"/>
+            <TextBlock x:Name="TxtTitle"
+                       Text="Settings"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       Foreground="#1A1A1A"
+                       Margin="0,0,0,24"/>
 
-            <!-- Profile Card -->
-            <Border x:Name="CardProfile" Background="White" CornerRadius="10"
-                    BorderBrush="#E8E8E2" BorderThickness="1"
-                    Padding="20" Margin="0,0,0,16">
+            <!-- PROFILE -->
+            <Border x:Name="CardProfile"
+                    Background="White"
+                    CornerRadius="10"
+                    BorderBrush="#E8E8E2"
+                    BorderThickness="1"
+                    Padding="20"
+                    Margin="0,0,0,16">
+
                 <StackPanel>
-                    <TextBlock Text="Profile" FontSize="14" FontWeight="SemiBold"
-                               Foreground="#1A1A1A" Margin="0,0,0,16"/>
 
-                    <TextBlock Text="Full Name" FontSize="12"
-                               Foreground="#555" Margin="0,0,0,4"/>
-                    <TextBox x:Name="TxtFullName" Height="36" FontSize="13"
-                             Padding="10,0" VerticalContentAlignment="Center"
-                             BorderBrush="#DDD" Margin="0,0,0,12"/>
+                    <TextBlock Text="Current User"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#1A1A1A"
+                               Margin="0,0,0,16"/>
 
-                    <TextBlock Text="Username" FontSize="12"
-                               Foreground="#555" Margin="0,0,0,4"/>
-                    <TextBox x:Name="TxtUsername" Height="36" FontSize="13"
-                             Padding="10,0" VerticalContentAlignment="Center"
-                             BorderBrush="#DDD" Margin="0,0,0,12"/>
+                    <TextBlock Text="Full Name"
+                               FontSize="12"
+                               Foreground="#555"
+                               Margin="0,0,0,4"/>
 
-                    <TextBlock x:Name="TxtProfileMsg" FontSize="12"
-                               Margin="0,0,0,8" Visibility="Collapsed"/>
+                    <TextBox x:Name="TxtFullName"
+                             Height="36"
+                             FontSize="13"
+                             Padding="10,0"
+                             VerticalContentAlignment="Center"
+                             BorderBrush="#DDD"
+                             Margin="0,0,0,12"
+                             IsReadOnly="True"/>
 
-                    <Button Content="Save Profile" Height="38" Width="140"
-                            HorizontalAlignment="Left"
-                            Background="#1D9E75" Foreground="White"
-                            FontWeight="SemiBold" BorderThickness="0"
-                            Cursor="Hand" Click="BtnSaveProfile_Click">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="6"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
+                    <TextBlock Text="Username"
+                               FontSize="12"
+                               Foreground="#555"
+                               Margin="0,0,0,4"/>
+
+                    <TextBox x:Name="TxtUsername"
+                             Height="36"
+                             FontSize="13"
+                             Padding="10,0"
+                             VerticalContentAlignment="Center"
+                             BorderBrush="#DDD"
+                             IsReadOnly="True"/>
+
                 </StackPanel>
+
             </Border>
 
-            <!-- Change Password Card -->
-            <Border x:Name="CardPassword" Background="White" CornerRadius="10"
-                    BorderBrush="#E8E8E2" BorderThickness="1"
-                    Padding="20" Margin="0,0,0,16">
+            <!-- CHANGE PASSWORD -->
+            <Border x:Name="CardPassword"
+                    Background="White"
+                    CornerRadius="10"
+                    BorderBrush="#E8E8E2"
+                    BorderThickness="1"
+                    Padding="20"
+                    Margin="0,0,0,16">
+
                 <StackPanel>
-                    <TextBlock Text="Change Password" FontSize="14"
-                               FontWeight="SemiBold" Foreground="#1A1A1A"
+
+                    <TextBlock Text="Change Password"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#1A1A1A"
                                Margin="0,0,0,16"/>
 
                     <!-- Current Password -->
-                    <TextBlock Text="Current Password" FontSize="12"
-           Foreground="#555" Margin="0,0,0,4"/>
+                    <TextBlock Text="Current Password"
+                               FontSize="12"
+                               Foreground="#555"
+                               Margin="0,0,0,4"/>
+
                     <Grid Margin="0,0,0,12">
-                        <PasswordBox x:Name="TxtCurrentPw" Height="36" FontSize="13"
-                 Padding="10,0" BorderBrush="#DDD"/>
-                        <TextBox x:Name="TxtCurrentPwVisible" Height="36" FontSize="13"
-             Padding="10,0" VerticalContentAlignment="Center"
-             BorderBrush="#DDD" Visibility="Collapsed"/>
-                        <Button Width="34" Height="34" HorizontalAlignment="Right"
-            Margin="0,0,2,0" Background="Transparent"
-            BorderThickness="0" Cursor="Hand"
-            Click="BtnToggleCurrent_Click">
+
+                        <PasswordBox x:Name="TxtCurrentPw"
+                                     Height="36"
+                                     FontSize="13"
+                                     Padding="10,0"
+                                     BorderBrush="#DDD"/>
+
+                        <TextBox x:Name="TxtCurrentPwVisible"
+                                 Height="36"
+                                 FontSize="13"
+                                 Padding="10,0"
+                                 VerticalContentAlignment="Center"
+                                 BorderBrush="#DDD"
+                                 Visibility="Collapsed"/>
+
+                        <Button Width="34"
+                                Height="34"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,2,0"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Click="BtnToggleCurrent_Click">
+
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border Background="Transparent">
                                         <ContentPresenter HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"/>
+                                                          VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
-                            <Path x:Name="EyeCurrent" Fill="#888888"
-              Stretch="Uniform" Width="20" Height="14"
-              Data="M12,6.5c2.76,0 5,2.24 5,5 0,.51-.1,1-.24,1.46l3.06,3.06C21.23,14.82 22,13.24 22,11.5 22,7.61 17.42,4.5 12,4.5c-1.26,0-2.47.2-3.59.57L10.16,6.82C10.74,6.63 11.35,6.5 12,6.5zM2,3.27L4.28,5.55l.46.46C3.08,7.3 2,9.32 2,11.5c1.73,3.89 5.5,6.5 10,6.5 1.39,0 2.72-.29 3.93-.82L19,20l1.41-1.41-18-18zM12,16.5c-2.76,0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57,1.57C9.03,11.12 9,11.31 9,11.5c0,1.66 1.34,3 3,3 .19,0 .38-.03.56-.07L14.14,15.99C13.5,16.32 12.77,16.5 12,16.5z"/>
+
+                            <Path x:Name="EyeCurrent"
+                                  Fill="#888888"
+                                  Stretch="Uniform"
+                                  Width="20"
+                                  Height="14"
+                                  Data="M12,6.5c2.76,0 5,2.24 5,5 0,.51-.1,1-.24,1.46l3.06,3.06C21.23,14.82 22,13.24 22,11.5 22,7.61 17.42,4.5 12,4.5c-1.26,0-2.47.2-3.59.57L10.16,6.82C10.74,6.63 11.35,6.5 12,6.5zM2,3.27L4.28,5.55l.46.46C3.08,7.3 2,9.32 2,11.5c1.73,3.89 5.5,6.5 10,6.5 1.39,0 2.72-.29 3.93-.82L19,20l1.41-1.41-18-18zM12,16.5c-2.76,0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57,1.57C9.03,11.12 9,11.31 9,11.5c0,1.66 1.34,3 3,3 .19,0 .38-.03.56-.07L14.14,15.99C13.5,16.32 12.77,16.5 12,16.5z"/>
                         </Button>
+
                     </Grid>
 
                     <!-- New Password -->
-                    <TextBlock Text="New Password" FontSize="12"
-           Foreground="#555" Margin="0,0,0,4"/>
+                    <TextBlock Text="New Password"
+                               FontSize="12"
+                               Foreground="#555"
+                               Margin="0,0,0,4"/>
+
                     <Grid Margin="0,0,0,12">
-                        <PasswordBox x:Name="TxtNewPw" Height="36" FontSize="13"
-                 Padding="10,0" BorderBrush="#DDD"/>
-                        <TextBox x:Name="TxtNewPwVisible" Height="36" FontSize="13"
-             Padding="10,0" VerticalContentAlignment="Center"
-             BorderBrush="#DDD" Visibility="Collapsed"/>
-                        <Button Width="34" Height="34" HorizontalAlignment="Right"
-            Margin="0,0,2,0" Background="Transparent"
-            BorderThickness="0" Cursor="Hand"
-            Click="BtnToggleNew_Click">
+
+                        <PasswordBox x:Name="TxtNewPw"
+                                     Height="36"
+                                     FontSize="13"
+                                     Padding="10,0"
+                                     BorderBrush="#DDD"/>
+
+                        <TextBox x:Name="TxtNewPwVisible"
+                                 Height="36"
+                                 FontSize="13"
+                                 Padding="10,0"
+                                 VerticalContentAlignment="Center"
+                                 BorderBrush="#DDD"
+                                 Visibility="Collapsed"/>
+
+                        <Button Width="34"
+                                Height="34"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,2,0"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Click="BtnToggleNew_Click">
+
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border Background="Transparent">
                                         <ContentPresenter HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"/>
+                                                          VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
-                            <Path x:Name="EyeNew" Fill="#888888"
-              Stretch="Uniform" Width="20" Height="14"
-              Data="M12,6.5c2.76,0 5,2.24 5,5 0,.51-.1,1-.24,1.46l3.06,3.06C21.23,14.82 22,13.24 22,11.5 22,7.61 17.42,4.5 12,4.5c-1.26,0-2.47.2-3.59.57L10.16,6.82C10.74,6.63 11.35,6.5 12,6.5zM2,3.27L4.28,5.55l.46.46C3.08,7.3 2,9.32 2,11.5c1.73,3.89 5.5,6.5 10,6.5 1.39,0 2.72-.29 3.93-.82L19,20l1.41-1.41-18-18zM12,16.5c-2.76,0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57,1.57C9.03,11.12 9,11.31 9,11.5c0,1.66 1.34,3 3,3 .19,0 .38-.03.56-.07L14.14,15.99C13.5,16.32 12.77,16.5 12,16.5z"/>
+
+                            <Path x:Name="EyeNew"
+                                  Fill="#888888"
+                                  Stretch="Uniform"
+                                  Width="20"
+                                  Height="14"
+                                  Data="M12,6.5c2.76,0 5,2.24 5,5 0,.51-.1,1-.24,1.46l3.06,3.06C21.23,14.82 22,13.24 22,11.5 22,7.61 17.42,4.5 12,4.5c-1.26,0-2.47.2-3.59.57L10.16,6.82C10.74,6.63 11.35,6.5 12,6.5zM2,3.27L4.28,5.55l.46.46C3.08,7.3 2,9.32 2,11.5c1.73,3.89 5.5,6.5 10,6.5 1.39,0 2.72-.29 3.93-.82L19,20l1.41-1.41-18-18zM12,16.5c-2.76,0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57,1.57C9.03,11.12 9,11.31 9,11.5c0,1.66 1.34,3 3,3 .19,0 .38-.03.56-.07L14.14,15.99C13.5,16.32 12.77,16.5 12,16.5z"/>
                         </Button>
+
                     </Grid>
 
-                    <!-- Confirm New Password -->
-                    <TextBlock Text="Confirm New Password" FontSize="12"
-           Foreground="#555" Margin="0,0,0,4"/>
+                    <!-- Confirm Password -->
+                    <TextBlock Text="Confirm New Password"
+                               FontSize="12"
+                               Foreground="#555"
+                               Margin="0,0,0,4"/>
+
                     <Grid Margin="0,0,0,12">
-                        <PasswordBox x:Name="TxtConfirmPw" Height="36" FontSize="13"
-                 Padding="10,0" BorderBrush="#DDD"/>
-                        <TextBox x:Name="TxtConfirmPwVisible" Height="36" FontSize="13"
-             Padding="10,0" VerticalContentAlignment="Center"
-             BorderBrush="#DDD" Visibility="Collapsed"/>
-                        <Button Width="34" Height="34" HorizontalAlignment="Right"
-            Margin="0,0,2,0" Background="Transparent"
-            BorderThickness="0" Cursor="Hand"
-            Click="BtnToggleConfirm_Click">
+
+                        <PasswordBox x:Name="TxtConfirmPw"
+                                     Height="36"
+                                     FontSize="13"
+                                     Padding="10,0"
+                                     BorderBrush="#DDD"/>
+
+                        <TextBox x:Name="TxtConfirmPwVisible"
+                                 Height="36"
+                                 FontSize="13"
+                                 Padding="10,0"
+                                 VerticalContentAlignment="Center"
+                                 BorderBrush="#DDD"
+                                 Visibility="Collapsed"/>
+
+                        <Button Width="34"
+                                Height="34"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,2,0"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Click="BtnToggleConfirm_Click">
+
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border Background="Transparent">
                                         <ContentPresenter HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"/>
+                                                          VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
-                            <Path x:Name="EyeConfirm" Fill="#888888"
-              Stretch="Uniform" Width="20" Height="14"
-              Data="M12,6.5c2.76,0 5,2.24 5,5 0,.51-.1,1-.24,1.46l3.06,3.06C21.23,14.82 22,13.24 22,11.5 22,7.61 17.42,4.5 12,4.5c-1.26,0-2.47.2-3.59.57L10.16,6.82C10.74,6.63 11.35,6.5 12,6.5zM2,3.27L4.28,5.55l.46.46C3.08,7.3 2,9.32 2,11.5c1.73,3.89 5.5,6.5 10,6.5 1.39,0 2.72-.29 3.93-.82L19,20l1.41-1.41-18-18zM12,16.5c-2.76,0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57,1.57C9.03,11.12 9,11.31 9,11.5c0,1.66 1.34,3 3,3 .19,0 .38-.03.56-.07L14.14,15.99C13.5,16.32 12.77,16.5 12,16.5z"/>
-                        </Button>
-                    </Grid>
-                    
-                    <TextBlock x:Name="TxtPwMsg" FontSize="12"
-                               Margin="0,0,0,8" Visibility="Collapsed"/>
 
-                    <Button Content="Change Password" Height="38" Width="160"
+                            <Path x:Name="EyeConfirm"
+                                  Fill="#888888"
+                                  Stretch="Uniform"
+                                  Width="20"
+                                  Height="14"
+                                  Data="M12,6.5c2.76,0 5,2.24 5,5 0,.51-.1,1-.24,1.46l3.06,3.06C21.23,14.82 22,13.24 22,11.5 22,7.61 17.42,4.5 12,4.5c-1.26,0-2.47.2-3.59.57L10.16,6.82C10.74,6.63 11.35,6.5 12,6.5zM2,3.27L4.28,5.55l.46.46C3.08,7.3 2,9.32 2,11.5c1.73,3.89 5.5,6.5 10,6.5 1.39,0 2.72-.29 3.93-.82L19,20l1.41-1.41-18-18zM12,16.5c-2.76,0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57,1.57C9.03,11.12 9,11.31 9,11.5c0,1.66 1.34,3 3,3 .19,0 .38-.03.56-.07L14.14,15.99C13.5,16.32 12.77,16.5 12,16.5z"/>
+                        </Button>
+
+                    </Grid>
+
+                    <TextBlock x:Name="TxtPwMsg"
+                               FontSize="12"
+                               Margin="0,0,0,8"
+                               Visibility="Collapsed"/>
+
+                    <Button Content="Change Password"
+                            Height="38"
+                            Width="160"
                             HorizontalAlignment="Left"
-                            Background="#1D9E75" Foreground="White"
-                            FontWeight="SemiBold" BorderThickness="0"
-                            Cursor="Hand" Click="BtnChangePw_Click">
+                            Background="#1D9E75"
+                            Foreground="White"
+                            FontWeight="SemiBold"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="BtnChangePw_Click">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="6"/>
                             </Style>
                         </Button.Resources>
                     </Button>
-                </StackPanel>
-            </Border>
 
-            <!-- App Info Card -->
-            <Border x:Name="CardInfo" Background="White" CornerRadius="10"
-                    BorderBrush="#E8E8E2" BorderThickness="1"
-                    Padding="20">
-                <StackPanel>
-                    <TextBlock Text="About" FontSize="14" FontWeight="SemiBold"
-                               Foreground="#1A1A1A" Margin="0,0,0,12"/>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="140"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="Application" FontSize="12"
-                                   Foreground="#888" Margin="0,0,0,8"/>
-                        <TextBlock Grid.Column="1" Text="FinTrack"
-                                   FontSize="12" Foreground="#1A1A1A"
-                                   Margin="0,0,0,8"/>
-                        <TextBlock Grid.Row="1" Text="Version" FontSize="12"
-                                   Foreground="#888" Margin="0,0,0,8"/>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="1.0.0"
-                                   FontSize="12" Foreground="#1A1A1A"
-                                   Margin="0,0,0,8"/>
-                        <TextBlock Grid.Row="2" Text="Platform" FontSize="12"
-                                   Foreground="#888"/>
-                        <TextBlock Grid.Row="2" Grid.Column="1"
-                                   Text=".NET 8 · WPF · SQLite"
-                                   FontSize="12" Foreground="#1A1A1A"/>
-                    </Grid>
                 </StackPanel>
+
             </Border>
 
             <!-- Add Backup User Card -->
             <Border x:Name="CardAddUser" Background="White" CornerRadius="10"
-        BorderBrush="#E8E8E2" BorderThickness="1"
-        Padding="20" Margin="0,0,0,16">
+BorderBrush="#E8E8E2" BorderThickness="1"
+Padding="20" Margin="0,0,0,16">
                 <StackPanel>
                     <TextBlock Text="Add Backup User" FontSize="14"
-                   FontWeight="SemiBold" Foreground="#1A1A1A"
-                   Margin="0,0,0,4"/>
+           FontWeight="SemiBold" Foreground="#1A1A1A"
+           Margin="0,0,0,4"/>
                     <TextBlock Text="Create an extra account in case your main credentials are lost."
-                   FontSize="11" Foreground="#888" Margin="0,0,0,16"
-                   TextWrapping="Wrap"/>
+           FontSize="11" Foreground="#888" Margin="0,0,0,16"
+           TextWrapping="Wrap"/>
 
                     <TextBlock Text="Full Name" FontSize="12"
-                   Foreground="#555" Margin="0,0,0,4"/>
+           Foreground="#555" Margin="0,0,0,4"/>
                     <TextBox x:Name="TxtNewUserName" Height="36" FontSize="13"
-                 Padding="10,0" VerticalContentAlignment="Center"
-                 BorderBrush="#DDD" Margin="0,0,0,12"/>
+         Padding="10,0" VerticalContentAlignment="Center"
+         BorderBrush="#DDD" Margin="0,0,0,12"/>
 
                     <TextBlock Text="Username" FontSize="12"
-                   Foreground="#555" Margin="0,0,0,4"/>
+           Foreground="#555" Margin="0,0,0,4"/>
                     <TextBox x:Name="TxtNewUserUsername" Height="36" FontSize="13"
-                 Padding="10,0" VerticalContentAlignment="Center"
-                 BorderBrush="#DDD" Margin="0,0,0,12"/>
+         Padding="10,0" VerticalContentAlignment="Center"
+         BorderBrush="#DDD" Margin="0,0,0,12"/>
 
                     <TextBlock Text="Password" FontSize="12"
-                   Foreground="#555" Margin="0,0,0,4"/>
+           Foreground="#555" Margin="0,0,0,4"/>
                     <Grid Margin="0,0,0,12">
                         <PasswordBox x:Name="TxtNewUserPw" Height="36" FontSize="13"
-                         Padding="10,0" BorderBrush="#DDD"/>
+                 Padding="10,0" BorderBrush="#DDD"/>
                         <TextBox x:Name="TxtNewUserPwVisible" Height="36" FontSize="13"
-                     Padding="10,0" VerticalContentAlignment="Center"
-                     BorderBrush="#DDD" Visibility="Collapsed"/>
+             Padding="10,0" VerticalContentAlignment="Center"
+             BorderBrush="#DDD" Visibility="Collapsed"/>
                         <Button Width="34" Height="34" HorizontalAlignment="Right"
-                    Margin="0,0,2,0" Background="Transparent"
-                    BorderThickness="0" Cursor="Hand"
-                    Click="BtnToggleNewUser_Click">
+            Margin="0,0,2,0" Background="Transparent"
+            BorderThickness="0" Cursor="Hand"
+            Click="BtnToggleNewUser_Click">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border Background="Transparent">
                                         <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
+                                      VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
                             <Path x:Name="EyeNewUser" Fill="#888888"
-                      Stretch="Uniform" Width="20" Height="14"
-                      Data="M12,6.5c2.76,0 5,2.24 5,5 0,.51-.1,1-.24,1.46l3.06,3.06C21.23,14.82 22,13.24 22,11.5 22,7.61 17.42,4.5 12,4.5c-1.26,0-2.47.2-3.59.57L10.16,6.82C10.74,6.63 11.35,6.5 12,6.5zM2,3.27L4.28,5.55l.46.46C3.08,7.3 2,9.32 2,11.5c1.73,3.89 5.5,6.5 10,6.5 1.39,0 2.72-.29 3.93-.82L19,20l1.41-1.41-18-18zM12,16.5c-2.76,0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57,1.57C9.03,11.12 9,11.31 9,11.5c0,1.66 1.34,3 3,3 .19,0 .38-.03.56-.07L14.14,15.99C13.5,16.32 12.77,16.5 12,16.5z"/>
+              Stretch="Uniform" Width="20" Height="14"
+              Data="M12,6.5c2.76,0 5,2.24 5,5 0,.51-.1,1-.24,1.46l3.06,3.06C21.23,14.82 22,13.24 22,11.5 22,7.61 17.42,4.5 12,4.5c-1.26,0-2.47.2-3.59.57L10.16,6.82C10.74,6.63 11.35,6.5 12,6.5zM2,3.27L4.28,5.55l.46.46C3.08,7.3 2,9.32 2,11.5c1.73,3.89 5.5,6.5 10,6.5 1.39,0 2.72-.29 3.93-.82L19,20l1.41-1.41-18-18zM12,16.5c-2.76,0-5-2.24-5-5 0-.77.18-1.5.49-2.14l1.57,1.57C9.03,11.12 9,11.31 9,11.5c0,1.66 1.34,3 3,3 .19,0 .38-.03.56-.07L14.14,15.99C13.5,16.32 12.77,16.5 12,16.5z"/>
                         </Button>
                     </Grid>
 
                     <TextBlock Text="Role" FontSize="12"
-                    Foreground="#555" Margin="0,0,0,4"/>
+            Foreground="#555" Margin="0,0,0,4"/>
                     <ComboBox x:Name="CmbNewUserRole"
-                      Height="36"
-                      FontSize="13"
-                      Margin="0,0,0,12"
-                      Background="#2E2E36"
-                      Foreground="White"
-                      BorderBrush="#3A3A42"
-                      Padding="8,0">
+              Height="36"
+              FontSize="13"
+              Margin="0,0,0,12"
+              Background="#2E2E36"
+              Foreground="White"
+              BorderBrush="#3A3A42"
+              Padding="8,0">
 
                         <ComboBox.Resources>
 
@@ -284,14 +349,14 @@
                     </ComboBox>
 
                     <TextBlock x:Name="TxtAddUserMsg" FontSize="12"
-                   Margin="0,0,0,8" Visibility="Collapsed"
-                   TextWrapping="Wrap"/>
+           Margin="0,0,0,8" Visibility="Collapsed"
+           TextWrapping="Wrap"/>
 
                     <Button Content="Create Backup User" Height="38" Width="180"
-                HorizontalAlignment="Left"
-                Background="#1D9E75" Foreground="White"
-                FontWeight="SemiBold" BorderThickness="0"
-                Cursor="Hand" Click="BtnAddUser_Click">
+        HorizontalAlignment="Left"
+        Background="#1D9E75" Foreground="White"
+        FontWeight="SemiBold" BorderThickness="0"
+        Cursor="Hand" Click="BtnAddUser_Click">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="6"/>
@@ -303,8 +368,8 @@
 
             <!-- Manage Users Card -->
             <Border x:Name="CardUsers" Background="White" CornerRadius="10"
-        BorderBrush="#E8E8E2" BorderThickness="1"
-        Padding="20" Margin="0,0,0,16">
+BorderBrush="#E8E8E2" BorderThickness="1"
+Padding="20" Margin="0,0,0,16">
                 <StackPanel>
                     <Grid Margin="0,0,0,12">
                         <Grid.ColumnDefinitions>
@@ -312,12 +377,12 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="All Users" FontSize="14"
-                       FontWeight="SemiBold" Foreground="#1A1A1A"/>
+               FontWeight="SemiBold" Foreground="#1A1A1A"/>
                         <Button Grid.Column="1" Content="🔄 Refresh"
-                    Height="30" Padding="10,0"
-                    Background="#F0F0EA" Foreground="#555"
-                    FontSize="12" BorderThickness="0"
-                    Cursor="Hand" Click="BtnRefreshUsers_Click">
+            Height="30" Padding="10,0"
+            Background="#F0F0EA" Foreground="#555"
+            FontSize="12" BorderThickness="0"
+            Cursor="Hand" Click="BtnRefreshUsers_Click">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="6"/>
@@ -327,32 +392,32 @@
                     </Grid>
 
                     <DataGrid x:Name="DgUsers"
-                  AutoGenerateColumns="False"
-                  IsReadOnly="True"
-                  GridLinesVisibility="Horizontal"
-                  HeadersVisibility="Column"
-                  BorderThickness="0"
-                  RowHeight="40" FontSize="13"
-                  Background="White"
-                  AlternatingRowBackground="#FAFAF8"
-                  CanUserResizeRows="False"
-                  MaxHeight="200">
+          AutoGenerateColumns="False"
+          IsReadOnly="True"
+          GridLinesVisibility="Horizontal"
+          HeadersVisibility="Column"
+          BorderThickness="0"
+          RowHeight="40" FontSize="13"
+          Background="White"
+          AlternatingRowBackground="#FAFAF8"
+          CanUserResizeRows="False"
+          MaxHeight="200">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Full Name" Width="*"
-                    Binding="{Binding FullName}"/>
+            Binding="{Binding FullName}"/>
                             <DataGridTextColumn Header="Username" Width="120"
-                    Binding="{Binding Username}"/>
+            Binding="{Binding Username}"/>
                             <DataGridTextColumn Header="Role" Width="80"
-                    Binding="{Binding Role}"/>
+            Binding="{Binding Role}"/>
                             <DataGridTemplateColumn Header="Actions" Width="80">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Content="Del" Width="40" Height="26"
-                                    FontSize="11"
-                                    Background="#FDECEA" Foreground="#C0392B"
-                                    BorderThickness="0" Cursor="Hand"
-                                    Tag="{Binding Id}"
-                                    Click="BtnDeleteUser_Click">
+                            FontSize="11"
+                            Background="#FDECEA" Foreground="#C0392B"
+                            BorderThickness="0" Cursor="Hand"
+                            Tag="{Binding Id}"
+                            Click="BtnDeleteUser_Click">
                                             <Button.Resources>
                                                 <Style TargetType="Border">
                                                     <Setter Property="CornerRadius" Value="4"/>
@@ -366,7 +431,45 @@
                     </DataGrid>
                 </StackPanel>
             </Border>
-            
+
+            <!-- App Info Card -->
+            <Border x:Name="CardInfo" Background="White" CornerRadius="10"
+        BorderBrush="#E8E8E2" BorderThickness="1"
+        Padding="20">
+                <StackPanel>
+                    <TextBlock Text="About" FontSize="14" FontWeight="SemiBold"
+                   Foreground="#1A1A1A" Margin="0,0,0,12"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Application" FontSize="12"
+                       Foreground="#888" Margin="0,0,0,8"/>
+                        <TextBlock Grid.Column="1" Text="FinTrack"
+                       FontSize="12" Foreground="#1A1A1A"
+                       Margin="0,0,0,8"/>
+                        <TextBlock Grid.Row="1" Text="Version" FontSize="12"
+                       Foreground="#888" Margin="0,0,0,8"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="1.0.0"
+                       FontSize="12" Foreground="#1A1A1A"
+                       Margin="0,0,0,8"/>
+                        <TextBlock Grid.Row="2" Text="Platform" FontSize="12"
+                       Foreground="#888"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1"
+                       Text=".NET 8 · WPF · SQLite"
+                       FontSize="12" Foreground="#1A1A1A"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
         </StackPanel>
+
     </ScrollViewer>
+
 </Page>

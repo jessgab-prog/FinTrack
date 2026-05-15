@@ -22,7 +22,20 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Seed default categories
+        // Prevent cascade delete on Client → Transactions
+        modelBuilder.Entity<Transaction>()
+            .HasOne(t => t.Client)
+            .WithMany()
+            .HasForeignKey(t => t.ClientId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        // Prevent cascade delete on Category → Transactions
+        modelBuilder.Entity<Transaction>()
+            .HasOne(t => t.Category)
+            .WithMany()
+            .HasForeignKey(t => t.CategoryId)
+            .OnDelete(DeleteBehavior.SetNull);
+
         modelBuilder.Entity<Category>().HasData(
             new Category { Id = 1, Name = "Sales", Type = "Income" },
             new Category { Id = 2, Name = "Freelance", Type = "Income" },
