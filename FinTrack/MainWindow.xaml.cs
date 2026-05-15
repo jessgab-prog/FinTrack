@@ -46,18 +46,26 @@ public partial class MainWindow : Window
 
     private void NavigateTo(string page, Button activeBtn)
     {
+        // Reset previous active button
         if (_activeNavButton != null)
         {
             _activeNavButton.Background = Brushes.Transparent;
-            _activeNavButton.Foreground = new SolidColorBrush(Color.FromRgb(68, 68, 68));
+            _activeNavButton.Foreground = ThemeManager.IsDark
+                ? new SolidColorBrush(Color.FromRgb(220, 220, 225))
+                : new SolidColorBrush(Color.FromRgb(68, 68, 68));
         }
 
+        // Set new active button
         _activeNavButton = activeBtn;
-        activeBtn.Background = new SolidColorBrush(Color.FromRgb(225, 245, 238));
-        activeBtn.Foreground = new SolidColorBrush(Color.FromRgb(15, 110, 86));
+        activeBtn.Background = ThemeManager.IsDark
+            ? new SolidColorBrush(Color.FromRgb(45, 65, 58))
+            : new SolidColorBrush(Color.FromRgb(225, 245, 238));
+        activeBtn.Foreground =
+            new SolidColorBrush(Color.FromRgb(29, 158, 117));
+
         TxtPageTitle.Text = page;
 
-        // Create or reuse page
+        // Use cached pages
         Page targetPage = page switch
         {
             "Dashboard" => _dashboardPage ??= new DashboardPage(),
@@ -72,8 +80,18 @@ public partial class MainWindow : Window
 
         MainFrame.Navigate(targetPage);
 
-        // IMPORTANT: reapply theme after navigation
-        ApplyTheme();
+        // Always re-apply theme after navigation
+        // so new pages get the correct dark/light colors
+        Dispatcher.BeginInvoke(new Action(() =>
+        {
+            _dashboardPage?.ApplyTheme();
+            _transactionsPage?.ApplyTheme();
+            _clientsPage?.ApplyTheme();
+            _reportsPage?.ApplyTheme();
+            _notificationsPage?.ApplyTheme();
+            _settingsPage?.ApplyTheme();
+            _budgetPage?.ApplyTheme();
+        }), System.Windows.Threading.DispatcherPriority.Render);
     }
 
     private void BtnDarkMode_Checked(object sender, RoutedEventArgs e)
@@ -94,8 +112,8 @@ public partial class MainWindow : Window
     {
         ThemeManager.Apply(_isDark);
 
-        // Shell
-        this.Background = ThemeManager.PageBackground;
+        // ── Window / shell ──────────────────────────────
+        Background = ThemeManager.PageBackground;
         MainFrame.Background = ThemeManager.PageBackground;
         SidebarBorder.Background = ThemeManager.CardBackground;
         SidebarBorder.BorderBrush = ThemeManager.BorderColor;
@@ -104,30 +122,55 @@ public partial class MainWindow : Window
         TxtPageTitle.Foreground = ThemeManager.TextPrimary;
         TxtUserName.Foreground = ThemeManager.TextPrimary;
         TxtUserRole.Foreground = ThemeManager.TextSecondary;
-        TxtLogoName.Foreground = ThemeManager.TextPrimary;
-        TxtLogoSub.Foreground = ThemeManager.TextSecondary;
 
-        // Nav section labels
+        // Logo text stays white — it's on green background
+        TxtLogoName.Foreground = Brushes.White;
+        TxtLogoSub.Foreground = new SolidColorBrush(
+            Color.FromRgb(168, 223, 201));
+
+        // User initials
+        TxtUserInitials.Foreground =
+            new SolidColorBrush(Color.FromRgb(15, 110, 86));
+
+        // ── Section labels ───────────────────────────────
         var sectionColor = ThemeManager.IsDark
-            ? new SolidColorBrush(Color.FromRgb(90, 90, 100))
+            ? new SolidColorBrush(Color.FromRgb(120, 120, 130))
             : new SolidColorBrush(Color.FromRgb(170, 170, 170));
         LblMain.Foreground = sectionColor;
         LblInsights.Foreground = sectionColor;
         LblSettings.Foreground = sectionColor;
 
-        // Nav button text
-        var navColor = ThemeManager.IsDark
-            ? new SolidColorBrush(Color.FromRgb(180, 180, 190))
+        // ── Nav buttons ──────────────────────────────────
+        var normalFg = ThemeManager.IsDark
+            ? new SolidColorBrush(Color.FromRgb(220, 220, 225))
             : new SolidColorBrush(Color.FromRgb(68, 68, 68));
-        foreach (var btn in new[] { BtnDashboard, BtnTransactions, BtnClients,
-                                    BtnReports, BtnNotifications, BtnSettings,
-                                    BtnBudget })
+
+        var activeBg = ThemeManager.IsDark
+            ? new SolidColorBrush(Color.FromRgb(45, 65, 58))
+            : new SolidColorBrush(Color.FromRgb(225, 245, 238));
+
+        var activeFg = new SolidColorBrush(Color.FromRgb(29, 158, 117));
+
+        foreach (var btn in new[]
         {
-            if (btn != _activeNavButton)
-                btn.Foreground = navColor;
+            BtnDashboard, BtnTransactions, BtnClients,
+            BtnReports, BtnNotifications, BtnSettings, BtnBudget
+        })
+        {
+            if (btn == _activeNavButton)
+            {
+                btn.Background = activeBg;
+                btn.Foreground = activeFg;
+            }
+            else
+            {
+                btn.Background = Brushes.Transparent;
+                btn.Foreground = normalFg;
+            }
+            btn.BorderBrush = Brushes.Transparent;
         }
 
-        // Logout button
+        // ── Logout button ────────────────────────────────
         BtnLogout.Background = ThemeManager.IsDark
             ? new SolidColorBrush(Color.FromRgb(80, 30, 30))
             : new SolidColorBrush(Color.FromRgb(253, 236, 234));
@@ -135,7 +178,16 @@ public partial class MainWindow : Window
             ? new SolidColorBrush(Color.FromRgb(255, 120, 100))
             : new SolidColorBrush(Color.FromRgb(192, 57, 43));
 
-        // Apply theme to all cached pages that exist
+        // ── Top bar buttons ──────────────────────────────
+        BtnRefresh.Foreground = ThemeManager.TextPrimary;
+        BtnDarkMode.Foreground = ThemeManager.TextPrimary;
+        BtnDarkMode.Background = ThemeManager.CardBackground;
+        BtnDarkMode.BorderBrush = ThemeManager.BorderColor;
+
+        // ── Apply theme to all cached pages ─────────────
+        // This calls each page's own ApplyTheme() which uses
+        // ApplyToVisualTree() scoped only to that page —
+        // never touching the sidebar or nav buttons
         _dashboardPage?.ApplyTheme();
         _transactionsPage?.ApplyTheme();
         _clientsPage?.ApplyTheme();
@@ -147,52 +199,38 @@ public partial class MainWindow : Window
 
     private void BtnRefresh_Click(object sender, RoutedEventArgs e)
     {
-        if (_activeNavButton == null)
-            return;
+        if (_activeNavButton == null) return;
 
         string page = _activeNavButton.Tag?.ToString() ?? "Dashboard";
 
-        // Clear cache
+        // Clear cache for current page only
         switch (page)
         {
-            case "Dashboard":
-                _dashboardPage = null;
-                break;
-
-            case "Transactions":
-                _transactionsPage = null;
-                break;
-
-            case "Clients":
-                _clientsPage = null;
-                break;
-
-            case "Reports":
-                _reportsPage = null;
-                break;
-
-            case "Notifications":
-                _notificationsPage = null;
-                break;
-
-            case "Settings":
-                _settingsPage = null;
-                break;
-
-            case "Budget":
-                _budgetPage = null;
-                break;
+            case "Dashboard": _dashboardPage = null; break;
+            case "Transactions": _transactionsPage = null; break;
+            case "Clients": _clientsPage = null; break;
+            case "Reports": _reportsPage = null; break;
+            case "Notifications": _notificationsPage = null; break;
+            case "Settings": _settingsPage = null; break;
+            case "Budget": _budgetPage = null; break;
         }
 
-        // Reload page
+        // Reload the page fresh
         NavigateTo(page, _activeNavButton);
 
-        // REAPPLY THEME AFTER REFRESH
+        // Re-apply theme to the newly created page AFTER it loads
         Dispatcher.BeginInvoke(new Action(() =>
         {
-            ThemeManager.ApplyThemeToWindow(this);
-        }), System.Windows.Threading.DispatcherPriority.Loaded);
+            _dashboardPage?.ApplyTheme();
+            _transactionsPage?.ApplyTheme();
+            _clientsPage?.ApplyTheme();
+            _reportsPage?.ApplyTheme();
+            _notificationsPage?.ApplyTheme();
+            _settingsPage?.ApplyTheme();
+            _budgetPage?.ApplyTheme();
+        }), System.Windows.Threading.DispatcherPriority.Render);
     }
+
     private void BtnLogout_Click(object sender, RoutedEventArgs e)
     {
         var result = MessageBox.Show(

@@ -241,11 +241,46 @@
                     </Grid>
 
                     <TextBlock Text="Role" FontSize="12"
-                   Foreground="#555" Margin="0,0,0,4"/>
-                    <ComboBox x:Name="CmbNewUserRole" Height="36" FontSize="13"
-                  BorderBrush="#DDD" Margin="0,0,0,12">
+                    Foreground="#555" Margin="0,0,0,4"/>
+                    <ComboBox x:Name="CmbNewUserRole"
+                      Height="36"
+                      FontSize="13"
+                      Margin="0,0,0,12"
+                      Background="#2E2E36"
+                      Foreground="White"
+                      BorderBrush="#3A3A42"
+                      Padding="8,0">
+
+                        <ComboBox.Resources>
+
+                            <!-- Dropdown items -->
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Background" Value="#25252B"/>
+                                <Setter Property="Padding" Value="8,6"/>
+
+                                <Style.Triggers>
+
+                                    <!-- Hover -->
+                                    <Trigger Property="IsHighlighted" Value="True">
+                                        <Setter Property="Background" Value="#1D9E75"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </Trigger>
+
+                                    <!-- Selected -->
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#0F6E56"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </Trigger>
+
+                                </Style.Triggers>
+                            </Style>
+
+                        </ComboBox.Resources>
+
                         <ComboBoxItem Content="Owner" IsSelected="True"/>
                         <ComboBoxItem Content="Staff"/>
+
                     </ComboBox>
 
                     <TextBlock x:Name="TxtAddUserMsg" FontSize="12"

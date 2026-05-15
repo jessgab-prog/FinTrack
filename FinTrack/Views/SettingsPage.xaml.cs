@@ -32,83 +32,106 @@ public partial class SettingsPage : Page
     {
         this.Background = ThemeManager.PageBackground;
 
+        // ===== Titles =====
         if (TxtTitle != null)
-        {
             TxtTitle.Foreground = ThemeManager.TextPrimary;
-        }
 
-        if (CardProfile != null)
+        // ===== Cards =====
+        foreach (var card in new[]
         {
-            CardProfile.Background = ThemeManager.CardBackground;
-            CardProfile.BorderBrush = ThemeManager.BorderColor;
-        }
-
-        if (CardPassword != null)
+        CardProfile,
+        CardPassword,
+        CardInfo,
+        CardAddUser,
+        CardUsers
+    })
         {
-            CardPassword.Background = ThemeManager.CardBackground;
-            CardPassword.BorderBrush = ThemeManager.BorderColor;
+            if (card != null)
+            {
+                card.Background = ThemeManager.CardBackground;
+                card.BorderBrush = ThemeManager.BorderColor;
+            }
         }
 
-        if (CardInfo != null)
-        {
-            CardInfo.Background = ThemeManager.CardBackground;
-            CardInfo.BorderBrush = ThemeManager.BorderColor;
-        }
-
-        if (CardAddUser != null)
-        {
-            CardAddUser.Background = ThemeManager.CardBackground;
-            CardAddUser.BorderBrush = ThemeManager.BorderColor;
-        }
-
-        if (CardUsers != null)
-        {
-            CardUsers.Background = ThemeManager.CardBackground;
-            CardUsers.BorderBrush = ThemeManager.BorderColor;
-        }
-
-        // Preserve text while applying theme
+        // ===== Preserve existing text =====
         string fullName = TxtFullName?.Text ?? "";
         string username = TxtUsername?.Text ?? "";
 
-        if (TxtFullName != null)
+        // ===== TextBoxes =====
+        foreach (var tb in new[]
         {
-            TxtFullName.Background = ThemeManager.InputBackground;
-            TxtFullName.Foreground = ThemeManager.TextPrimary;
-            TxtFullName.BorderBrush = ThemeManager.BorderColor;
-            TxtFullName.Text = fullName;
+        TxtFullName,
+        TxtUsername,
+        TxtNewUserName,
+        TxtNewUserUsername,
+        TxtCurrentPwVisible,
+        TxtNewPwVisible,
+        TxtConfirmPwVisible,
+        TxtNewUserPwVisible
+    })
+        {
+            if (tb != null)
+            {
+                tb.Background = ThemeManager.InputBackground;
+                tb.Foreground = ThemeManager.TextPrimary;
+                tb.BorderBrush = ThemeManager.BorderColor;
+                tb.CaretBrush = ThemeManager.TextPrimary;
+            }
         }
+
+        // Restore profile text
+        if (TxtFullName != null)
+            TxtFullName.Text = fullName;
 
         if (TxtUsername != null)
-        {
-            TxtUsername.Background = ThemeManager.InputBackground;
-            TxtUsername.Foreground = ThemeManager.TextPrimary;
-            TxtUsername.BorderBrush = ThemeManager.BorderColor;
             TxtUsername.Text = username;
-        }
 
-        if (TxtNewUserName != null)
+        // ===== PasswordBoxes =====
+        foreach (var pb in new[]
         {
-            TxtNewUserName.Background = ThemeManager.InputBackground;
-            TxtNewUserName.Foreground = ThemeManager.TextPrimary;
-            TxtNewUserName.BorderBrush = ThemeManager.BorderColor;
-        }
-
-        if (TxtNewUserUsername != null)
+        TxtCurrentPw,
+        TxtNewPw,
+        TxtConfirmPw,
+        TxtNewUserPw
+    })
         {
-            TxtNewUserUsername.Background = ThemeManager.InputBackground;
-            TxtNewUserUsername.Foreground = ThemeManager.TextPrimary;
-            TxtNewUserUsername.BorderBrush = ThemeManager.BorderColor;
+            if (pb != null)
+            {
+                pb.Background = ThemeManager.InputBackground;
+                pb.Foreground = ThemeManager.TextPrimary;
+                pb.BorderBrush = ThemeManager.BorderColor;
+                pb.CaretBrush = ThemeManager.TextPrimary;
+            }
         }
 
+        // ===== ComboBoxes =====
+        foreach (var cb in new[]
+        {
+        CmbNewUserRole
+    })
+        {
+            if (cb != null)
+            {
+                cb.Background = ThemeManager.InputBackground;
+                cb.Foreground = ThemeManager.InputForeground;
+                cb.BorderBrush = ThemeManager.BorderColor;
+
+                // Fix unreadable dropdown items
+                cb.Resources[SystemColors.WindowBrushKey] =
+                    ThemeManager.InputBackground;
+
+                cb.Resources[SystemColors.ControlTextBrushKey] =
+                    ThemeManager.TextPrimary;
+            }
+        }
+
+        // ===== DataGrid =====
         if (DgUsers != null)
-        {
             ThemeManager.ApplyToDataGrid(DgUsers);
-        }
 
+        // ===== Apply theme to remaining controls =====
         ThemeManager.ApplyToVisualTree(this);
-    }
-
+    }   
     private void LoadProfile()
     {
         var user = LoginWindow.LoggedInUser;

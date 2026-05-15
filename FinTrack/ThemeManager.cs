@@ -32,7 +32,21 @@ public static class ThemeManager
     public static SolidColorBrush SubtleBorder => Brush(IsDark ? "#2E2E36" : "#F0F0EA");
     public static SolidColorBrush NavButtonHover => Brush(IsDark ? "#2E2E38" : "#F0F0EA");
 
-    // Apply theme to a DataGrid
+    // Known nav/UI colors to skip during tree walk
+    private static readonly Color GreenAccent = Color.FromRgb(29, 158, 117);
+    private static readonly Color DarkGreen = Color.FromRgb(15, 110, 86);
+    private static readonly Color Red = Color.FromRgb(226, 75, 74);
+    private static readonly Color DarkRed = Color.FromRgb(192, 57, 43);
+    private static readonly Color Amber = Color.FromRgb(239, 159, 39);
+    private static readonly Color NavActiveBg = Color.FromRgb(45, 65, 58);
+    private static readonly Color NavActiveBgLt = Color.FromRgb(225, 245, 238);
+    private static readonly Color LogoutBgDark = Color.FromRgb(80, 30, 30);
+    private static readonly Color LogoutBgLight = Color.FromRgb(253, 236, 234);
+    private static readonly Color SidebarGreen = Color.FromRgb(29, 158, 117);
+
+    // =========================
+    // DATAGRID
+    // =========================
     public static void ApplyToDataGrid(DataGrid grid)
     {
         grid.Background = GridBackground;
@@ -58,42 +72,51 @@ public static class ThemeManager
         grid.RowStyle = rowStyle;
     }
 
-    // Apply theme to all TextBlocks inside a panel
-    public static void ApplyToPanel(Panel panel, bool isCard = false)
-    {
-        foreach (var child in panel.Children)
-        {
-            if (child is TextBlock tb)
-            {
-                // Keep semantic colors (green/red amounts) — only fix gray/black text
-                var current = (tb.Foreground as SolidColorBrush)?.Color;
-                if (current == Color.FromRgb(26, 26, 26) ||
-                    current == Color.FromRgb(68, 68, 68) ||
-                    current == Color.FromRgb(85, 85, 85) ||
-                    current == Color.FromRgb(136, 136, 136) ||
-                    current == Color.FromRgb(170, 170, 170) ||
-                    current == Color.FromRgb(153, 153, 153) ||
-                    current == Color.FromRgb(68, 68, 68))
-                {
-                    tb.Foreground = TextPrimary;
-                }
-            }
-            else if (child is Panel subPanel)
-            {
-                ApplyToPanel(subPanel, isCard);
-            }
-        }
-    }
-
-    // Apply to ComboBox
+    // =========================
+    // COMBOBOX
+    // =========================
     public static void ApplyToComboBox(ComboBox cmb)
     {
         cmb.Background = InputBackground;
-        cmb.Foreground = InputForeground;
+        cmb.Foreground = TextPrimary;
         cmb.BorderBrush = BorderColor;
+
+        cmb.Resources[SystemColors.WindowBrushKey] = InputBackground;
+        cmb.Resources[SystemColors.ControlBrushKey] = InputBackground;
+        cmb.Resources[SystemColors.ControlTextBrushKey] = TextPrimary;
+        cmb.Resources[SystemColors.HighlightBrushKey] =
+            new SolidColorBrush(GreenAccent);
+        cmb.Resources[SystemColors.HighlightTextBrushKey] = Brushes.White;
+        cmb.Resources[SystemColors.InactiveSelectionHighlightBrushKey] =
+            new SolidColorBrush(GreenAccent);
+        cmb.Resources[SystemColors.InactiveSelectionHighlightTextBrushKey] =
+            Brushes.White;
+
+        var itemStyle = new Style(typeof(ComboBoxItem));
+        itemStyle.Setters.Add(new Setter(Control.BackgroundProperty, InputBackground));
+        itemStyle.Setters.Add(new Setter(Control.ForegroundProperty, TextPrimary));
+        itemStyle.Setters.Add(new Setter(Control.BorderBrushProperty, BorderColor));
+
+        var hoverTrigger = new Trigger
+        { Property = ComboBoxItem.IsMouseOverProperty, Value = true };
+        hoverTrigger.Setters.Add(new Setter(Control.BackgroundProperty,
+            new SolidColorBrush(Color.FromRgb(36, 118, 87))));
+        hoverTrigger.Setters.Add(new Setter(Control.ForegroundProperty, Brushes.White));
+
+        var selectedTrigger = new Trigger
+        { Property = ComboBoxItem.IsSelectedProperty, Value = true };
+        selectedTrigger.Setters.Add(new Setter(Control.BackgroundProperty,
+            new SolidColorBrush(GreenAccent)));
+        selectedTrigger.Setters.Add(new Setter(Control.ForegroundProperty, Brushes.White));
+
+        itemStyle.Triggers.Add(hoverTrigger);
+        itemStyle.Triggers.Add(selectedTrigger);
+        cmb.ItemContainerStyle = itemStyle;
     }
 
-    // Apply to TextBox
+    // =========================
+    // TEXTBOX
+    // =========================
     public static void ApplyToTextBox(TextBox txt)
     {
         txt.Background = InputBackground;
@@ -102,41 +125,47 @@ public static class ThemeManager
         txt.CaretBrush = InputForeground;
     }
 
-    // Apply to Border card
+    // =========================
+    // CARD
+    // =========================
     public static void ApplyToCard(Border card)
     {
         card.Background = CardBackground;
         card.BorderBrush = BorderColor;
     }
 
-    // Walk entire visual tree and theme everything
+    // =========================
+    // VISUAL TREE — pages only, never the main window shell
+    // =========================
     public static void ApplyToVisualTree(DependencyObject parent)
     {
-        int count = System.Windows.Media.VisualTreeHelper.GetChildrenCount(parent);
+        int count = VisualTreeHelper.GetChildrenCount(parent);
+
         for (int i = 0; i < count; i++)
         {
-            var child = System.Windows.Media.VisualTreeHelper.GetChild(parent, i);
+            var child = VisualTreeHelper.GetChild(parent, i);
 
             switch (child)
             {
                 case TextBlock tb:
-                    // Skip semantic colored text (green income, red expense)
                     var color = (tb.Foreground as SolidColorBrush)?.Color;
-                    if (color != Color.FromRgb(29, 158, 117) &&
-                        color != Color.FromRgb(226, 75, 74) &&
-                        color != Color.FromRgb(15, 110, 86) &&
-                        color != Color.FromRgb(239, 159, 39) &&
-                        color != Color.FromRgb(192, 57, 43) &&
-                        color != Color.FromRgb(255, 255, 255))
-                    {
-                        tb.Foreground = tb.FontSize <= 11
-                            ? TextSecondary
-                            : TextPrimary;
-                    }
+                    // Skip semantic colors and white (logo, active nav)
+                    if (color == GreenAccent || color == DarkGreen ||
+                        color == Red || color == DarkRed ||
+                        color == Amber || color == Colors.White)
+                        break;
+                    tb.Foreground = tb.FontSize <= 11
+                        ? TextSecondary
+                        : TextPrimary;
                     break;
 
                 case Border border:
                     var bg = (border.Background as SolidColorBrush)?.Color;
+                    // Skip sidebar green logo border, nav active, logout
+                    if (bg == SidebarGreen || bg == NavActiveBg ||
+                        bg == NavActiveBgLt || bg == LogoutBgDark ||
+                        bg == LogoutBgLight)
+                        break;
                     if (bg == Color.FromRgb(255, 255, 255) ||
                         bg == Color.FromRgb(250, 250, 248) ||
                         bg == Color.FromRgb(240, 240, 234))
@@ -147,16 +176,23 @@ public static class ThemeManager
                     break;
 
                 case TextBox txt:
-                    txt.Background = InputBackground;
-                    txt.Foreground = InputForeground;
-                    txt.BorderBrush = BorderColor;
-                    txt.CaretBrush = InputForeground;
+                    ApplyToTextBox(txt);
                     break;
 
                 case ComboBox cmb:
-                    cmb.Background = InputBackground;
-                    cmb.Foreground = InputForeground;
-                    cmb.BorderBrush = BorderColor;
+                    ApplyToComboBox(cmb);
+                    break;
+
+                case Button btn:
+                    // NEVER touch nav buttons or logout button
+                    var btnBg = (btn.Background as SolidColorBrush)?.Color;
+                    if (btnBg == NavActiveBg || btnBg == NavActiveBgLt ||
+                        btnBg == LogoutBgDark || btnBg == LogoutBgLight ||
+                        btnBg == SidebarGreen)
+                        break;
+                    // Only theme transparent buttons (page action buttons)
+                    if (btn.Background == Brushes.Transparent)
+                        btn.Foreground = TextPrimary;
                     break;
 
                 case DataGrid dg:
@@ -168,9 +204,11 @@ public static class ThemeManager
         }
     }
 
+    // Only apply to pages — never call this on the MainWindow itself
     public static void ApplyThemeToWindow(DependencyObject parent)
     {
-        ApplyToVisualTree(parent);
+        // Intentionally left empty — use ApplyToVisualTree on pages directly
+        // Calling this on MainWindow corrupts sidebar nav button colors
     }
 
     private static SolidColorBrush Brush(string hex) =>
