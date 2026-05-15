@@ -23,16 +23,42 @@ public partial class BudgetPage : Page
     public void ApplyTheme()
     {
         this.Background = ThemeManager.PageBackground;
-        TxtTitle.Foreground = ThemeManager.TextPrimary;
-        TxtSubtitle.Foreground = ThemeManager.TextSecondary;
-        CardTotalBudget.Background = ThemeManager.CardBackground;
-        CardTotalSpent.Background = ThemeManager.CardBackground;
-        CardRemaining.Background = ThemeManager.CardBackground;
-        CardBudgets.Background = ThemeManager.CardBackground;
-        CardTotalBudget.BorderBrush = ThemeManager.BorderColor;
-        CardTotalSpent.BorderBrush = ThemeManager.BorderColor;
-        CardRemaining.BorderBrush = ThemeManager.BorderColor;
-        CardBudgets.BorderBrush = ThemeManager.BorderColor;
+
+        if (TxtTitle != null)
+        {
+            TxtTitle.Foreground = ThemeManager.TextPrimary;
+        }
+
+        if (TxtSubtitle != null)
+        {
+            TxtSubtitle.Foreground = ThemeManager.TextSecondary;
+        }
+
+        if (CardTotalBudget != null)
+        {
+            CardTotalBudget.Background = ThemeManager.CardBackground;
+            CardTotalBudget.BorderBrush = ThemeManager.BorderColor;
+        }
+
+        if (CardTotalSpent != null)
+        {
+            CardTotalSpent.Background = ThemeManager.CardBackground;
+            CardTotalSpent.BorderBrush = ThemeManager.BorderColor;
+        }
+
+        if (CardRemaining != null)
+        {
+            CardRemaining.Background = ThemeManager.CardBackground;
+            CardRemaining.BorderBrush = ThemeManager.BorderColor;
+        }
+
+        if (CardBudgets != null)
+        {
+            CardBudgets.Background = ThemeManager.CardBackground;
+            CardBudgets.BorderBrush = ThemeManager.BorderColor;
+        }
+
+        ThemeManager.ApplyToVisualTree(this);
     }
 
     private void LoadDropdowns()

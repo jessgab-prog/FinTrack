@@ -20,12 +20,25 @@ public partial class NotificationsPage : Page
     public void ApplyTheme()
     {
         this.Background = ThemeManager.PageBackground;
-        CardBorder.Background = ThemeManager.CardBackground;
-        CardBorder.BorderBrush = ThemeManager.BorderColor;
-        TxtTitle.Foreground = ThemeManager.TextPrimary;
-        TxtUnread.Foreground = ThemeManager.TextSecondary;
-    }
 
+        if (CardBorder != null)
+        {
+            CardBorder.Background = ThemeManager.CardBackground;
+            CardBorder.BorderBrush = ThemeManager.BorderColor;
+        }
+
+        if (TxtTitle != null)
+        {
+            TxtTitle.Foreground = ThemeManager.TextPrimary;
+        }
+
+        if (TxtUnread != null)
+        {
+            TxtUnread.Foreground = ThemeManager.TextSecondary;
+        }
+
+        ThemeManager.ApplyToVisualTree(this);
+    }
     private void ClearOldNotifications()
     {
         using var db = DatabaseHelper.GetContext();

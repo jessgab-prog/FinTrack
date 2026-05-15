@@ -21,19 +21,59 @@ public partial class ReportsPage : Page
     public void ApplyTheme()
     {
         this.Background = ThemeManager.PageBackground;
-        CardIncome.Background = ThemeManager.CardBackground;
-        CardExpense.Background = ThemeManager.CardBackground;
-        CardNet.Background = ThemeManager.CardBackground;
-        CardTable.Background = ThemeManager.CardBackground;
-        CardIncome.BorderBrush = ThemeManager.BorderColor;
-        CardExpense.BorderBrush = ThemeManager.BorderColor;
-        CardNet.BorderBrush = ThemeManager.BorderColor;
-        CardTable.BorderBrush = ThemeManager.BorderColor;
-        TxtTitle.Foreground = ThemeManager.TextPrimary;
-        TxtTableTitle.Foreground = ThemeManager.TextPrimary;
-        DgReport.Background = ThemeManager.CardBackground;
-        DgReport.AlternatingRowBackground = ThemeManager.AlternateRow;
-        DgReport.Foreground = ThemeManager.TextPrimary;
+
+        if (CardIncome != null)
+        {
+            CardIncome.Background = ThemeManager.CardBackground;
+            CardIncome.BorderBrush = ThemeManager.BorderColor;
+        }
+
+        if (CardExpense != null)
+        {
+            CardExpense.Background = ThemeManager.CardBackground;
+            CardExpense.BorderBrush = ThemeManager.BorderColor;
+        }
+
+        if (CardNet != null)
+        {
+            CardNet.Background = ThemeManager.CardBackground;
+            CardNet.BorderBrush = ThemeManager.BorderColor;
+        }
+
+        if (CardTable != null)
+        {
+            CardTable.Background = ThemeManager.CardBackground;
+            CardTable.BorderBrush = ThemeManager.BorderColor;
+        }
+
+        if (TxtTitle != null)
+        {
+            TxtTitle.Foreground = ThemeManager.TextPrimary;
+        }
+
+        if (TxtTableTitle != null)
+        {
+            TxtTableTitle.Foreground = ThemeManager.TextPrimary;
+        }
+
+        if (CmbMonth != null)
+        {
+            CmbMonth.Background = ThemeManager.InputBackground;
+            CmbMonth.Foreground = ThemeManager.InputForeground;
+        }
+
+        if (CmbYear != null)
+        {
+            CmbYear.Background = ThemeManager.InputBackground;
+            CmbYear.Foreground = ThemeManager.InputForeground;
+        }
+
+        if (DgReport != null)
+        {
+            ThemeManager.ApplyToDataGrid(DgReport);
+        }
+
+        ThemeManager.ApplyToVisualTree(this);
     }
 
     private void LoadDropdowns()
@@ -56,7 +96,7 @@ public partial class ReportsPage : Page
         if (!_loaded) return;
 
         int month = CmbMonth.SelectedIndex + 1;
-        int year = (int)(CmbYear.SelectedItem ?? DateTime.Now.Year);
+        int year = CmbYear.SelectedItem is int y ? y : DateTime.Now.Year;
 
         using var db = DatabaseHelper.GetContext();
         var txns = db.Transactions

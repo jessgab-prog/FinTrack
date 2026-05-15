@@ -45,6 +45,7 @@ public partial class ClientsPage : Page
         if (CmbType != null)
         {
             CmbType.Background = ThemeManager.InputBackground;
+            CmbType.Foreground = ThemeManager.InputForeground;
         }
 
         if (TxtClientsTitle != null)
@@ -55,7 +56,9 @@ public partial class ClientsPage : Page
         if (DgClients != null)
         {
             ThemeManager.ApplyToDataGrid(DgClients);
-        }//added ThemeManager
+        }
+
+        ThemeManager.ApplyToVisualTree(this);
     }
     private void LoadClients()
     {

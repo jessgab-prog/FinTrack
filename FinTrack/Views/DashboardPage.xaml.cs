@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Media;      // for SolidColorBrush
+using System.Windows.Media;
 using FinTrack.Data;
 using FinTrack.Models;
 using LiveChartsCore;
@@ -7,6 +7,7 @@ using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using Microsoft.EntityFrameworkCore;
 using SkiaSharp;
+
 namespace FinTrack.Views;
 
 public class CategoryStat
@@ -28,52 +29,92 @@ public partial class DashboardPage : Page
     public void ApplyTheme()
     {
         this.Background = ThemeManager.PageBackground;
+
+        // KPI cards
+        foreach (var card in new[] { CardIncome, CardExpense,
+                                 CardNet, CardTxn,
+                                 CardChart, CardRecent, CardCats })
+        {
+            if (card != null)
+            {
+                card.Background = ThemeManager.CardBackground;
+                card.BorderBrush = ThemeManager.BorderColor;
+            }
+        }
+
+        // Primary labels
+        foreach (var tb in new[] { TxtWelcome, TxtChartTitle,
+                               TxtRecentTitle, TxtCatsTitle,
+                               TxtTxnCount, TxtNet })
+        {
+            if (tb != null)
+                tb.Foreground = ThemeManager.TextPrimary;
+        }
+
+        // Secondary / muted labels
+        foreach (var tb in new[] { TxtDate, TxtIncomeLabel,
+                               TxtExpenseLabel, TxtNetLabel2,
+                               TxtTxnLabel, TxtTxnSub,
+                               TxtIncomeCount, TxtExpenseCount,
+                               TxtNetLabel })
+        {
+            if (tb != null)
+                tb.Foreground = ThemeManager.TextSecondary;
+        }
+
+        // Apply theme to remaining controls
+        ThemeManager.ApplyToVisualTree(this);
+
+        // Chart axis colors
+        var labelColor = ThemeManager.IsDark ? "#9A9A94" : "#888888";
+
+        if (BarChart?.XAxes != null)
+        {
+            foreach (var axis in BarChart.XAxes.OfType<Axis>())
+                axis.LabelsPaint = new SolidColorPaint(SKColor.Parse(labelColor));
+        }
+
+        if (BarChart?.YAxes != null)
+        {
+            foreach (var axis in BarChart.YAxes.OfType<Axis>())
+                axis.LabelsPaint = new SolidColorPaint(SKColor.Parse(labelColor));
+        }
     }
 
     private void LoadDashboard()
     {
-        var user = Views.LoginWindow.LoggedInUser;
+        var user = LoginWindow.LoggedInUser;
         TxtWelcome.Text = $"Welcome back, {user?.FullName ?? "User"} 👋";
         TxtDate.Text = DateTime.Now.ToString("dddd, MMMM dd, yyyy");
 
         using var db = DatabaseHelper.GetContext();
-
-        var now = DateTime.Now;
-        var startOfMonth = new DateTime(now.Year, now.Month, 1);
 
         var allTxns = db.Transactions
             .Include(t => t.Category)
             .Where(t => !t.IsDeleted)
             .ToList();
 
-        var thisMonth = allTxns;
-
-        // KPI Cards
-        var income = thisMonth.Where(t => t.Type == "Income").Sum(t => t.Amount);
-        var expense = thisMonth.Where(t => t.Type == "Expense").Sum(t => t.Amount);
+        var income = allTxns.Where(t => t.Type == "Income").Sum(t => t.Amount);
+        var expense = allTxns.Where(t => t.Type == "Expense").Sum(t => t.Amount);
         var net = income - expense;
 
         TxtIncome.Text = $"₱{income:N2}";
-        TxtIncomeCount.Text = $"{thisMonth.Count(t => t.Type == "Income")} transactions";
+        TxtIncomeCount.Text = $"{allTxns.Count(t => t.Type == "Income")} transactions";
         TxtExpenses.Text = $"₱{expense:N2}";
-        TxtExpenseCount.Text = $"{thisMonth.Count(t => t.Type == "Expense")} transactions";
+        TxtExpenseCount.Text = $"{allTxns.Count(t => t.Type == "Expense")} transactions";
         TxtNet.Text = $"₱{net:N2}";
         TxtNet.Foreground = net >= 0
-            ? new SolidColorBrush(System.Windows.Media.Color.FromRgb(29, 158, 117))
-            : new SolidColorBrush(System.Windows.Media.Color.FromRgb(226, 75, 74));
+            ? new SolidColorBrush(Color.FromRgb(29, 158, 117))
+            : new SolidColorBrush(Color.FromRgb(226, 75, 74));
         TxtNetLabel.Text = net >= 0 ? "Profit this month" : "Loss this month";
-        TxtTxnCount.Text = thisMonth.Count.ToString();
+        TxtTxnCount.Text = allTxns.Count.ToString();
 
-        // Recent transactions (last 5)
         RecentList.ItemsSource = allTxns
             .OrderByDescending(t => t.Date)
             .Take(5)
             .ToList();
 
-        // Chart — last 6 months
         LoadChart(allTxns);
-
-        // Top expense categories
         LoadCategories(allTxns);
     }
 
@@ -97,6 +138,7 @@ public partial class DashboardPage : Page
                             t.Date.Month == m.Month)
                 .Sum(t => t.Amount)).ToArray();
 
+        var labelColor = ThemeManager.IsDark ? "#9A9A94" : "#888888";
         var labels = months.Select(m => m.ToString("MMM")).ToArray();
 
         BarChart.Series = new ISeries[]
@@ -121,9 +163,9 @@ public partial class DashboardPage : Page
         {
             new Axis
             {
-                Labels = labels,
-                LabelsPaint = new SolidColorPaint(SKColor.Parse("#888888")),
-                TicksPaint  = new SolidColorPaint(SKColor.Parse("#E8E8E2"))
+                Labels      = labels,
+                LabelsPaint = new SolidColorPaint(SKColor.Parse(labelColor)),
+                TicksPaint  = new SolidColorPaint(SKColor.Parse(labelColor))
             }
         };
 
@@ -131,8 +173,8 @@ public partial class DashboardPage : Page
         {
             new Axis
             {
-                LabelsPaint = new SolidColorPaint(SKColor.Parse("#888888")),
-                Labeler = v => $"₱{v:N0}"
+                LabelsPaint = new SolidColorPaint(SKColor.Parse(labelColor)),
+                Labeler     = v => $"₱{v:N0}"
             }
         };
     }

@@ -1,5 +1,4 @@
-﻿// TransactionsPage.xaml.cs
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using FinTrack.Data;
@@ -23,19 +22,48 @@ public partial class TransactionsPage : Page
     public void ApplyTheme()
     {
         this.Background = ThemeManager.PageBackground;
-        DgTransactions.Background = ThemeManager.GridBackground;
-        DgTransactions.AlternatingRowBackground = ThemeManager.AlternateRow;
-        DgTransactions.Foreground = ThemeManager.TextPrimary;
-        CardBorder.Background = ThemeManager.CardBackground;
-        CardBorder.BorderBrush = ThemeManager.BorderColor;
-        TxtSearch.Background = ThemeManager.InputBackground;
-        TxtSearch.Foreground = ThemeManager.TextSecondary;
-        TxtSearch.BorderBrush = ThemeManager.BorderColor;
-        CmbType.Background = ThemeManager.InputBackground;
-        CmbPayment.Background = ThemeManager.InputBackground;
-        TxtSummary.Foreground = ThemeManager.TextSecondary;
-        TxtTransactions.Foreground = ThemeManager.TextPrimary;
-        ThemeManager.ApplyToDataGrid(DgTransactions); // added ThemeManager
+
+        if (CardBorder != null)
+        {
+            CardBorder.Background = ThemeManager.CardBackground;
+            CardBorder.BorderBrush = ThemeManager.BorderColor;
+        }
+
+        if (TxtSearch != null)
+        {
+            TxtSearch.Background = ThemeManager.InputBackground;
+            TxtSearch.Foreground = ThemeManager.TextSecondary;
+            TxtSearch.BorderBrush = ThemeManager.BorderColor;
+        }
+
+        if (CmbType != null)
+        {
+            CmbType.Background = ThemeManager.InputBackground;
+            CmbType.Foreground = ThemeManager.InputForeground;
+        }
+
+        if (CmbPayment != null)
+        {
+            CmbPayment.Background = ThemeManager.InputBackground;
+            CmbPayment.Foreground = ThemeManager.InputForeground;
+        }
+
+        if (TxtSummary != null)
+        {
+            TxtSummary.Foreground = ThemeManager.TextSecondary;
+        }
+
+        if (TxtTransactions != null)
+        {
+            TxtTransactions.Foreground = ThemeManager.TextPrimary;
+        }
+
+        if (DgTransactions != null)
+        {
+            ThemeManager.ApplyToDataGrid(DgTransactions);
+        }
+
+        ThemeManager.ApplyToVisualTree(this);
     }
 
     private void LoadTransactions()

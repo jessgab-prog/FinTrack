@@ -57,8 +57,8 @@ public partial class MainWindow : Window
         activeBtn.Foreground = new SolidColorBrush(Color.FromRgb(15, 110, 86));
         TxtPageTitle.Text = page;
 
-        // Use cached pages — only create once
-        MainFrame.Navigate(page switch
+        // Create or reuse page
+        Page targetPage = page switch
         {
             "Dashboard" => _dashboardPage ??= new DashboardPage(),
             "Transactions" => _transactionsPage ??= new TransactionsPage(),
@@ -68,7 +68,12 @@ public partial class MainWindow : Window
             "Settings" => _settingsPage ??= new SettingsPage(),
             "Budget" => _budgetPage ??= new BudgetPage(),
             _ => _dashboardPage ??= new DashboardPage()
-        });
+        };
+
+        MainFrame.Navigate(targetPage);
+
+        // IMPORTANT: reapply theme after navigation
+        ApplyTheme();
     }
 
     private void BtnDarkMode_Checked(object sender, RoutedEventArgs e)
@@ -140,6 +145,54 @@ public partial class MainWindow : Window
         _budgetPage?.ApplyTheme();
     }
 
+    private void BtnRefresh_Click(object sender, RoutedEventArgs e)
+    {
+        if (_activeNavButton == null)
+            return;
+
+        string page = _activeNavButton.Tag?.ToString() ?? "Dashboard";
+
+        // Clear cache
+        switch (page)
+        {
+            case "Dashboard":
+                _dashboardPage = null;
+                break;
+
+            case "Transactions":
+                _transactionsPage = null;
+                break;
+
+            case "Clients":
+                _clientsPage = null;
+                break;
+
+            case "Reports":
+                _reportsPage = null;
+                break;
+
+            case "Notifications":
+                _notificationsPage = null;
+                break;
+
+            case "Settings":
+                _settingsPage = null;
+                break;
+
+            case "Budget":
+                _budgetPage = null;
+                break;
+        }
+
+        // Reload page
+        NavigateTo(page, _activeNavButton);
+
+        // REAPPLY THEME AFTER REFRESH
+        Dispatcher.BeginInvoke(new Action(() =>
+        {
+            ThemeManager.ApplyThemeToWindow(this);
+        }), System.Windows.Threading.DispatcherPriority.Loaded);
+    }
     private void BtnLogout_Click(object sender, RoutedEventArgs e)
     {
         var result = MessageBox.Show(

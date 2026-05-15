@@ -157,15 +157,29 @@
             <Border x:Name="TopBarBorder" Grid.Row="0" Background="White"
                     BorderBrush="#E8E8E2" BorderThickness="0,0,0,1"
                     Padding="20,0">
+                
                 <DockPanel VerticalAlignment="Center">
+                    
+                    <!-- Page title -->
                     <TextBlock x:Name="TxtPageTitle"
                                Text="Dashboard"
                                FontSize="15" FontWeight="SemiBold"
                                Foreground="#1A1A1A"
                                VerticalAlignment="Center"/>
+                    
+                    <!-- Right buttons -->
                     <StackPanel DockPanel.Dock="Right"
                                 Orientation="Horizontal"
                                 HorizontalAlignment="Right">
+
+                        <!-- Refresh button -->
+                        <Button x:Name="BtnRefresh" Content="🔄"
+                                    Height="30" Width="34" Margin="0,0,8,0"
+                                    Background="Transparent" FontSize="16"
+                                    BorderThickness="0" Cursor="Hand"
+                                    ToolTip="Refresh current page"
+                                    Click="BtnRefresh_Click"/>
+                        
                         <!-- Dark mode toggle -->
                         <ToggleButton x:Name="BtnDarkMode"
                                       Content="🌙 Dark"
