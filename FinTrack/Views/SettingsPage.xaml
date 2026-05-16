@@ -90,7 +90,7 @@
                         <PasswordBox x:Name="TxtCurrentPw"
                                      Height="36"
                                      FontSize="13"
-                                     Padding="10,0"
+                                     Padding="10,0" VerticalContentAlignment="Center"
                                      BorderBrush="#DDD"/>
 
                         <TextBox x:Name="TxtCurrentPwVisible"
@@ -140,7 +140,7 @@
                         <PasswordBox x:Name="TxtNewPw"
                                      Height="36"
                                      FontSize="13"
-                                     Padding="10,0"
+                                     Padding="10,0" VerticalContentAlignment="Center"
                                      BorderBrush="#DDD"/>
 
                         <TextBox x:Name="TxtNewPwVisible"
@@ -190,7 +190,7 @@
                         <PasswordBox x:Name="TxtConfirmPw"
                                      Height="36"
                                      FontSize="13"
-                                     Padding="10,0"
+                                     Padding="10,0" VerticalContentAlignment="Center"
                                      BorderBrush="#DDD"/>
 
                         <TextBox x:Name="TxtConfirmPwVisible"
@@ -283,7 +283,7 @@ Padding="20" Margin="0,0,0,16">
            Foreground="#555" Margin="0,0,0,4"/>
                     <Grid Margin="0,0,0,12">
                         <PasswordBox x:Name="TxtNewUserPw" Height="36" FontSize="13"
-                 Padding="10,0" BorderBrush="#DDD"/>
+                 Padding="10,0" VerticalContentAlignment="Center" BorderBrush="#DDD"/>
                         <TextBox x:Name="TxtNewUserPwVisible" Height="36" FontSize="13"
              Padding="10,0" VerticalContentAlignment="Center"
              BorderBrush="#DDD" Visibility="Collapsed"/>
